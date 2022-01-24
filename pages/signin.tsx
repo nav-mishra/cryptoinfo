@@ -1,12 +1,12 @@
+import {Provider} from '@supabase/supabase-js'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useState, FormEvent } from 'react'
-
-import { useUser } from '../src/hooks/useUser'
-import { Provider } from '@supabase/supabase-js'
-import LoadingIndicator from '../src/components/LoadingIndicator'
-import Input from '../src/components/elements/Input'
+import {useRouter} from 'next/router'
+import {FormEvent, useEffect, useState} from 'react'
 import Button from '../src/components/elements/Button'
+import Input from '../src/components/elements/Input'
+import LoadingIndicator from '../src/components/LoadingIndicator'
+import {useUser} from '../src/hooks/useUser'
+
 
 const SignIn = () => {
   const [userDetails, setUserDetails] = useState({
@@ -15,26 +15,27 @@ const SignIn = () => {
     showPasswordInput: false,
   })
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<{ type?: string; content?: string }>({
+  const [message, setMessage] = useState<{type?: string; content?: string}>({
     type: '',
     content: '',
   })
 
   const router = useRouter()
-  const { user, signIn } = useUser()
+  const {user, signIn} = useUser()
 
   const handleSignin = async (e: FormEvent<HTMLFormElement>) => {
+    alert('submit')
     e.preventDefault()
 
     setLoading(true)
     setMessage({})
 
-    const { error } = await signIn({
+    const {error} = await signIn({
       email: userDetails.email,
       password: userDetails.password,
     })
     if (error) {
-      setMessage({ type: 'error', content: error.message })
+      setMessage({type: 'error', content: error.message})
     }
     if (!userDetails.password) {
       setMessage({
@@ -47,15 +48,15 @@ const SignIn = () => {
 
   const handleOAuthSignIn = async (provider: Provider) => {
     setLoading(true)
-    const { error } = await signIn({ provider })
+    const {error} = await signIn({provider})
     if (error) {
-      setMessage({ type: 'error', content: error.message })
+      setMessage({type: 'error', content: error.message})
     }
     setLoading(false)
   }
 
   const handleInputChange = (name: string, value: string) => {
-    setUserDetails({ ...userDetails, [name]: value })
+    setUserDetails({...userDetails, [name]: value})
   }
 
   useEffect(() => {
@@ -66,111 +67,117 @@ const SignIn = () => {
 
   if (!user)
     return (
-      <div className='flex flex-col justify-between max-w-lg p-3 m-auto w-80 bg-gray-700 hover:shadow-lg rounded-md shadow-xl'>
-        <div className='flex justify-center pb-12 '>logo here</div>
-        <div className='flex flex-col space-y-4'>
-          {message.content && (
-            <div
-              className={`${
-                message.type === 'error' ? 'text-pink-500' : 'text-green-500'
-              } border ${
-                message.type === 'error'
-                  ? 'border-pink-500'
-                  : 'border-green-500'
-              } p-3`}>
-              {message.content}
-            </div>
-          )}
 
-          {!userDetails.showPasswordInput && (
-            <form onSubmit={handleSignin} className='flex flex-col space-y-4'>
-              <Input
-                type='email'
-                placeholder='Email'
-                name='email'
-                value={userDetails.email}
-                onChange={handleInputChange}
-              />
-              <button
-                type='submit'
-                className='border-gray-400 border-2 rounded-md text-gray-400'
-                disabled={!userDetails.email.length}>
-                Send magic link
-              </button>
-            </form>
-          )}
+      <div className='w-full text-gray-400 bg-gray-900 flex items-center justify-center'>
+        <section className="w-2/3 lg:w-1/3 body-font ">
+          <div className="px-5 py-24 mx-auto flex flex-wrap items-center">
+            <div className=" bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+              {message.content && (
+                <div
+                  className={`${message.type === 'error' ? 'text-pink-500' : 'text-green-500'
+                    } pb-4`}>
+                  {message.content}
+                </div>
+              )}<h2 className="text-white text-lg font-medium title-font mb-5">Sign In</h2>
+              {!userDetails.showPasswordInput && (
+                <form onSubmit={handleSignin} className='flex flex-col space-y-4'>
+                  <Input
+                    type='email'
+                    placeholder='Email'
+                    name='email'
+                    value={userDetails.email}
+                    onChange={handleInputChange}
+                  />
+                  <Button
+                    type='submit'
+                    text='Send magic link'
+                    onClick={() => {console.log('asdf')}}
+                    disabled={
+                      !userDetails.email.length
+                    } />
 
-          {userDetails.showPasswordInput && (
-            <form onSubmit={handleSignin} className='flex flex-col space-y-4'>
-              <Input
-                type='email'
-                placeholder='Email'
-                value={userDetails.email}
-                onChange={handleInputChange}
-                name={'email'}
-              />
-              <Input
-                type='password'
-                name={'password'}
-                placeholder='Password'
-                value={userDetails.password}
-                onChange={handleInputChange}
-              />
+                </form>
+              )}
+
+              {userDetails.showPasswordInput && (
+                <form onSubmit={handleSignin} className='flex flex-col space-y-4'>
+                  <Input
+                    type='email'
+                    placeholder='Email'
+                    value={userDetails.email}
+                    onChange={handleInputChange}
+                    name={'email'}
+                  />
+                  <Input
+                    type='password'
+                    name={'password'}
+                    placeholder='Password'
+                    value={userDetails.password}
+                    onChange={handleInputChange}
+                  />
+                  <Button
+                    text='Login'
+                    onClick={() => { }}
+                    type='submit'
+                    disabled={
+                      !userDetails.password.length || !userDetails.email.length
+                    }
+                  />
+                </form>
+              )}
+
+              <div className='mt-4 text-center'>
+                <div className='flex items-center my-6'>
+                  <div
+                    className='border-t border-gray-600 flex-grow mr-3'
+                    aria-hidden='true'></div>
+                  <div className='text-gray-400'>Or</div>
+                  <div
+                    className='border-t border-gray-600 flex-grow ml-3'
+                    aria-hidden='true'></div>
+                </div>
+
+                <div className='mt-4'>
+                  <Button
+                    text={`Sign in with ${userDetails.showPasswordInput ? 'magic link' : 'password'
+                      }.`} onClick={() => {
+                        setUserDetails({
+                          ...userDetails,
+                          showPasswordInput: !userDetails.showPasswordInput,
+                        })
+                        setMessage({})
+                      }} />
+                </div>
+              </div>
+              <span className='pt-4 text-center text-sm'>
+                <span className='text-gray-200  mr-2 '>Dont have an account?</span>
+                <Link href='/signup'>
+                  <a className='text-accent-9 text-lg font-bold hover:underline cursor-pointer'>
+                    Sign up.
+                  </a>
+                </Link>
+              </span>
+
+              <div className='flex items-center my-6'>
+                <div
+                  className='border-t border-gray-600 flex-grow mr-3'
+                  aria-hidden='true'></div>
+                <div className='text-gray-400'>Or</div>
+                <div
+                  className='border-t border-gray-600 flex-grow ml-3'
+                  aria-hidden='true'></div>
+              </div>
+
               <Button
-                text='Login'
-                onClick={() => {}}
-                disabled={
-                  !userDetails.password.length || !userDetails.email.length
-                }
-              />
-            </form>
-          )}
+                text='Continue with GitHub'
+                primary={false}
+                disabled={loading}
+                onClick={() => handleOAuthSignIn('github')} />
 
-          <span className='pt-1 text-center text-sm'>
-            <a
-              href='#'
-              className='text-gray-200 text-accent-9 hover:underline cursor-pointer'
-              onClick={() => {
-                setUserDetails({
-                  ...userDetails,
-                  showPasswordInput: !userDetails.showPasswordInput,
-                })
-                setMessage({})
-              }}>
-              {`Or sign in with ${
-                userDetails.showPasswordInput ? 'magic link' : 'password'
-              }.`}
-            </a>
-          </span>
-
-          <span className='pt-1 text-center text-sm'>
-            <span className='text-gray-200'>Dont have an account?</span>
-
-            <Link href='/signup'>
-              <a className='text-accent-9 font-bold hover:underline cursor-pointer'>
-                Sign up.
-              </a>
-            </Link>
-          </span>
-        </div>
-
-        <div className='flex items-center my-6'>
-          <div
-            className='border-t border-gray-600 flex-grow mr-3'
-            aria-hidden='true'></div>
-          <div className='text-gray-400'>Or</div>
-          <div
-            className='border-t border-gray-600 flex-grow ml-3'
-            aria-hidden='true'></div>
-        </div>
-
-        <button
-          type='submit'
-          disabled={loading}
-          onClick={() => handleOAuthSignIn('github')}>
-          <span className='ml-2'>Continue with GitHub</span>
-        </button>
-      </div>
+            </div >
+          </div>
+        </section >
+      </div >
     )
 
   return (

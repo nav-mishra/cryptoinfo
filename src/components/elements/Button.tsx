@@ -1,22 +1,27 @@
 import React from 'react'
+import {classNames} from '../../utils/cssUtils'
 
 const Button = ({
   text,
   disabled = false,
+  type = 'button',
   onClick,
   primary = true,
 }: {
   text: string
+  type?: 'submit' | 'reset' | 'button' | undefined,
   disabled?: boolean
-  onClick?: () => void
+  onClick: () => void
   primary?: boolean
 }) => {
   return (
     <button
+      type={type}
       disabled={disabled}
-      onClick={onClick}
-      type='button'
-      className='inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+      onClick={() => {
+        onClick()
+      }}
+      className={classNames('w-full text-white py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg', primary ? ' bg-indigo-500 border-0' : 'border border-gray-600')}>
       {text}
     </button>
   )

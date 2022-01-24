@@ -1,11 +1,11 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import {Disclosure, Menu, Transition} from '@headlessui/react'
+import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { Fragment, useEffect, useState } from 'react'
-import { GlobalStateAction, useGlobalDispatch } from '../store/GlobalStore'
-import { classNames } from '../utils/cssUtils'
-import { data } from '../utils/data'
+import {useRouter} from 'next/router'
+import {Fragment, useEffect} from 'react'
+import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
+import {classNames} from '../utils/cssUtils'
+import {data} from '../utils/data'
 import Header from './Header'
 
 const user = {
@@ -22,15 +22,15 @@ const Layout: React.FC = (props) => {
   useEffect(() => {
     let title =
       data.navigation.filter((x) => x.path == router.pathname)[0]?.name ?? ''
-    globalDispatch({ type: GlobalStateAction.SetPageTitle, title })
+    globalDispatch({type: GlobalStateAction.SetPageTitle, title})
   }, [])
 
   return (
     <div className='min-h-screen w-full flex flex-col '>
-      <Disclosure as='nav' className='bg-gray-800'>
-        {({ open }: { open: boolean }) => (
+      <Disclosure as='nav' className='bg-gray-900'>
+        {({open}: {open: boolean}) => (
           <>
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <div className=' mx-auto px-4 sm:px-6 lg:px-8'>
               <div className='flex items-center justify-between h-16'>
                 <div className='flex items-center'>
                   <div className=''>
@@ -46,7 +46,7 @@ const Layout: React.FC = (props) => {
                           href={item.path}
                           className={classNames(
                             true
-                              ? 'bg-gray-900 text-white'
+                              ? ' bg-gray-800 bg-opacity-50 text-white hover:bg-gray-700'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-sm font-medium'
                           )}
@@ -89,7 +89,7 @@ const Layout: React.FC = (props) => {
                         <Menu.Items className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'>
                           {data.userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
-                              {({ active }: { active: boolean }) =>
+                              {({active}: {active: boolean}) =>
                                 item.onClick ? (
                                   <button
                                     className={classNames(
