@@ -1,15 +1,15 @@
-import '../src/global.css'
-import type { AppProps } from 'next/app'
-
-import { useRouter } from 'next/router'
+import type {AppProps} from 'next/app'
+import Head from 'next/head'
+import {useRouter} from 'next/router'
 import Layout from '../src/components/Layout'
 import RouteLoadingIndicator from '../src/components/RouteLoadingIndicator'
-import { UserContextProvider } from '../src/hooks/useUser'
-import { GlobalStateProvider } from '../src/store/GlobalStore'
-import { LoadingStateProvider } from '../src/store/LoadingStore'
-import Head from 'next/head'
+import '../src/global.css'
+import {UserContextProvider} from '../src/hooks/useUser'
+import {GlobalStateProvider} from '../src/store/GlobalStore'
+import {LoadingStateProvider} from '../src/store/LoadingStore'
 
-function MyApp({ Component, pageProps }: AppProps) {
+
+function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter()
 
   return (
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <link rel='icon' href='/favicon.ico' />
           </Head>
           <div className='min-h-screen flex'>
-            {router.route.startsWith('/signin') ? (
+            {router.route.startsWith('/signin') || router.route.startsWith('/signup') ? (
               <Component {...pageProps} />
             ) : (
               <Layout>

@@ -24,7 +24,6 @@ const SignIn = () => {
   const {user, signIn} = useUser()
 
   const handleSignin = async (e: FormEvent<HTMLFormElement>) => {
-    alert('submit')
     e.preventDefault()
 
     setLoading(true)
@@ -45,6 +44,12 @@ const SignIn = () => {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/')
+    }
+  }, [user])
 
   const handleOAuthSignIn = async (provider: Provider) => {
     setLoading(true)
@@ -149,7 +154,7 @@ const SignIn = () => {
                       }} />
                 </div>
               </div>
-              <span className='pt-4 text-center text-sm'>
+              <span className='pt-4  text-sm'>
                 <span className='text-gray-200  mr-2 '>Dont have an account?</span>
                 <Link href='/signup'>
                   <a className='text-accent-9 text-lg font-bold hover:underline cursor-pointer'>

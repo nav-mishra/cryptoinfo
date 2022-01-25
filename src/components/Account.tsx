@@ -1,11 +1,10 @@
-import { Session } from '@supabase/supabase-js'
-import { useState, useEffect } from 'react'
-import constants from '../constants'
-import { useUser } from '../hooks/useUser'
+import {useState} from 'react'
+import {useUser} from '../hooks/useUser'
+import constants from '../utils/constants'
 import LoadingIndicator from './LoadingIndicator'
 
 export default function Account() {
-  const { user, userDetails, userLoaded } = useUser()
+  const {user, userDetails, userLoaded} = useUser()
   const [userName, setUserName] = useState('')
   const [loading, setLoading] = useState(false)
   async function updateProfile(
@@ -21,7 +20,7 @@ export default function Account() {
         full_name: username,
       }
 
-      let { error } = await constants.supabase.from('users').insert(updates, {
+      let {error} = await constants.supabase.from('users').insert(updates, {
         returning: 'minimal', // Don't return the value after inserting
       })
 

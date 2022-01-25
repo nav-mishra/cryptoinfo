@@ -1,11 +1,14 @@
+import {User} from '@supabase/gotrue-js'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React, { useEffect, useState, FormEvent } from 'react'
-
-import { User } from '@supabase/gotrue-js'
-import { useUser } from '../src/hooks/useUser'
+import {useRouter} from 'next/router'
+import React, {FormEvent, useEffect, useState} from 'react'
+import Button from '../src/components/elements/Button'
+import Input from '../src/components/elements/Input'
+import LoadingIndicator from '../src/components/LoadingIndicator'
+import {useUser} from '../src/hooks/useUser'
+import {IUserDetails} from '../src/types/IUserDetails'
 import constants from '../src/utils/constants'
-import { IUserDetails } from '../src/types/IUserDetails'
+
 
 export const updateUserName = async (user: User, name: string) => {
   await constants.supabase
@@ -24,24 +27,24 @@ const SignUp = () => {
     name: '',
   })
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<{ type?: string; content?: string }>({
+  const [message, setMessage] = useState<{type?: string; content?: string}>({
     type: '',
     content: '',
   })
   const router = useRouter()
-  const { signUp, user } = useUser()
+  const {signUp, user} = useUser()
 
   const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     setLoading(true)
     setMessage({})
-    const { error, user: createdUser } = await signUp({
+    const {error, user: createdUser} = await signUp({
       email: userDetails.email ?? '',
       password: userDetails.password ?? '',
     })
     if (error) {
-      setMessage({ type: 'error', content: error.message })
+      setMessage({type: 'error', content: error.message})
     } else {
       if (createdUser) {
         await updateUserName(createdUser, userDetails.name ?? '')
@@ -56,70 +59,65 @@ const SignUp = () => {
     setLoading(false)
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
-  }
-
   useEffect(() => {
     if (newUser || user) {
-      router.replace('/account')
+      router.replace('/')
     }
   }, [newUser, user])
 
   return (
-    <div className='flex justify-center height-screen-helper'>
-      <div className='flex flex-col justify-between max-w-lg p-3 m-auto w-80 '>
-        <div className='flex justify-center pb-12 '>Logo</div>
-        <form onSubmit={handleSignup} className='flex flex-col space-y-4'>
-          {message.content && (
-            <div
-              className={`${
-                message.type === 'error' ? 'text-pink-500' : 'text-green-500'
-              } border ${
-                message.type === 'error'
-                  ? 'border-pink-500'
-                  : 'border-green-500'
-              } p-3`}>
-              {message.content}
-            </div>
-          )}
-          <input
-            placeholder='Name'
-            name='name'
-            value={userDetails.name}
-            onChange={handleInputChange}
-          />
-          <input
-            type='email'
-            value={userDetails.email}
-            placeholder='Email'
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type='password'
-            value={userDetails.password}
-            placeholder='Password'
-            onChange={handleInputChange}
-          />
-          <div className='pt-2 w-full flex flex-col'>
-            <button type='submit' disabled={loading}>
-              Sign up
-            </button>
-          </div>
+    <div className='w-full text-gray-400 bg-gray-900 flex items-center justify-center'>
+      <LoadingIndicator open={loading} />
+      <section className="w-2/3 lg:w-1/3 body-font ">
+        <div className="px-5 py-24 mx-auto flex flex-wrap items-center">
+          <div className=" bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+            {message.content && (
+              <div
+                className={`${message.type === 'error' ? 'text-pink-500' : 'text-green-500'
+                  } pb-4`}>
+                {message.content}
+              </div>
+            )}<h2 className="text-white text-lg font-medium title-font mb-5">Sign up</h2>
 
-          <span className='pt-1 text-center text-sm'>
-            <span className='text-gray-200'>Do you have an account?</span>
-            {` `}
-            <Link href='/signin'>
-              <a className='text-accent-9 font-bold hover:underline cursor-pointer'>
-                Sign in.
-              </a>
-            </Link>
-          </span>
-        </form>
-      </div>
-    </div>
+            <form onSubmit={handleSignup} className='flex flex-col space-y-4'>
+              <Input
+                type='email'
+                placeholder='Email'
+                value={userDetails.email}
+                onChange={(name, value) => setUserDetails({...userDetails, email: value})}
+                name={'email'}
+              />
+              <Input
+                type='password'
+                name={'password'}
+                placeholder='Password'
+                value={userDetails.password}
+                onChange={(name, value) => setUserDetails({...userDetails, password: value})}
+
+              />
+              <Button
+                text='Login'
+                onClick={() => { }}
+                type='submit'
+                disabled={
+                  !userDetails.password.length || !userDetails.email.length
+                }
+              />
+            </form>
+
+
+            <span className='mt-2  text-sm'>
+              <span className='text-gray-200  mr-2 '>Have an account?</span>
+              <Link href='/signin'>
+                <a className='text-accent-9 text-lg font-bold hover:underline cursor-pointer'>
+                  Sign up.
+                </a>
+              </Link>
+            </span>
+          </div >
+        </div>
+      </section >
+    </div >
   )
 }
 
