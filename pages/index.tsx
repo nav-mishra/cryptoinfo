@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import LoadingIndicator from '../src/components/LoadingIndicator'
 import {useUser} from '../src/hooks/useUser'
+import constants from '../src/utils/constants'
 
 
 export interface Datum {
@@ -38,7 +39,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
   const {user} = useUser()
 
   useEffect(() => {
-    if (!user) router.replace('/signin')
+    if (!user && constants.forceAuth) router.replace('/signin')
   }, [user])
 
   return <div className='w-full'>

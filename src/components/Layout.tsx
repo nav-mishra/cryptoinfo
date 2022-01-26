@@ -58,7 +58,8 @@ const Layout: React.FC = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className='hidden md:block'>
+
+                {user && <div className='hidden md:block'>
                   <div className='ml-4 flex items-center md:ml-6'>
                     <button
                       type='button'
@@ -121,6 +122,7 @@ const Layout: React.FC = (props) => {
                     </Menu>
                   </div>
                 </div>
+                }
                 <div className='-mr-2 flex md:hidden'>
                   {/* Mobile menu button */}
                   <Disclosure.Button className='bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
@@ -154,7 +156,7 @@ const Layout: React.FC = (props) => {
                 ))}
               </div>
               <div className='pt-4 pb-3 border-t border-gray-700'>
-                <div className='flex items-center px-5'>
+                {user ? (<><div className='flex items-center px-5'>
                   <div className='flex-shrink-0'>
                     <Image
                       width={32}
@@ -179,17 +181,17 @@ const Layout: React.FC = (props) => {
                     <BellIcon className='h-6 w-6' aria-hidden='true' />
                   </button>
                 </div>
-                <div className='mt-3 px-2 space-y-1'>
-                  {data.userNavigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as='a'
-                      href={item.href}
-                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'>
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
-                </div>
+                  <div className='mt-3 px-2 space-y-1'>
+                    {data.userNavigation.map((item) => (
+                      <Disclosure.Button
+                        key={item.name}
+                        as='a'
+                        href={item.href}
+                        className='block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700'>
+                        {item.name}
+                      </Disclosure.Button>
+                    ))}
+                  </div></>) : <div>Signin</div>}
               </div>
             </Disclosure.Panel>
           </>
