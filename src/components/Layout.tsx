@@ -42,18 +42,18 @@ const Layout: React.FC = (props) => {
                   <div className='hidden  md:block '>
                     <div className='ml-10 flex items-baseline space-x-4'>
                       {data.navigation.map((item) => (
-                        <a
+                        <Link
                           key={item.name}
-                          href={item.path}
-                          className={classNames(
+                          href={item.path ?? '/'}
+
+                          aria-current={true ? 'page' : undefined}>
+                          <a className={classNames(
                             true
                               ? ' bg-gray-800 bg-opacity-50 text-white hover:bg-gray-700'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                             'px-3 py-2 rounded-md text-sm font-medium'
-                          )}
-                          aria-current={true ? 'page' : undefined}>
-                          {item.name}
-                        </a>
+                          )}> {item.name} </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -197,7 +197,7 @@ const Layout: React.FC = (props) => {
       </Disclosure>
 
       <Header />
-      <main className='flex-grow max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
+      <main className='flex-grow py-6 sm:px-6 lg:px-8'>
         {props.children}
       </main>
       <footer className='flex-grow-0 bg-gray-200 py-2 text-center'>Copy</footer>
