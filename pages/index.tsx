@@ -39,7 +39,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
   const {user} = useUser()
 
   useEffect(() => {
-    if (!user && constants.forceAuth) router.replace('/signin')
+    if (constants.forceAuth && !user) router.replace('/signin')
   }, [user])
 
   return <div className='w-full'>

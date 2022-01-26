@@ -17,9 +17,6 @@ export interface RootObject {
     next_page_url: string
 }
 
-
-
-
 const Profile: NextPage = (props) => {
     const router = useRouter()
     const {user, userLoaded} = useUser()
