@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 import {InferGetStaticPropsType} from 'next'
 import {useRouter} from 'next/router'
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import LoadingIndicator from '../src/components/LoadingIndicator'
 import {useUser} from '../src/hooks/useUser'
 
@@ -34,9 +34,8 @@ export const getStaticProps = async () => {
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',]
-  const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const {userLoaded, user, session, userDetails} = useUser()
+  const {user} = useUser()
 
   useEffect(() => {
     if (!user) router.replace('/signin')
