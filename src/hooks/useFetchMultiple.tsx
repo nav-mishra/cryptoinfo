@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import constants from '../constants'
+import {useEffect, useState} from 'react'
+import constants from '../utils/constants'
 
 function useFetchMultiple<T>(
   url: string,
@@ -48,7 +48,7 @@ function useFetchMultiple<T>(
     begin && fetchData()
   }, [begin])
 
-  return { data, error, inProgress, setBegin }
+  return {data, error, inProgress, setBegin}
 }
 
 export default useFetchMultiple

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import constants from '../constants'
+import {useEffect, useState} from 'react'
+import constants from '../utils/constants'
 
 function useFetch<T>(
   url: string,
@@ -80,7 +80,7 @@ function useFetch<T>(
     beginWithBody && fetchDataWithBody(beginWithBody)
   }, [begin, beginWithBody])
 
-  return { data, error, inProgress, setBegin, setBeginWithBody }
+  return {data, error, inProgress, setBegin, setBeginWithBody}
 }
 
 export default useFetch
