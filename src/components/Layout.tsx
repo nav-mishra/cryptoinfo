@@ -1,5 +1,6 @@
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/outline'
+import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {Fragment, useEffect} from 'react'
@@ -23,7 +24,7 @@ const Layout: React.FC = (props) => {
     let title =
       data.navigation.filter((x) => x.path == router.pathname)[0]?.name ?? ''
     globalDispatch({type: GlobalStateAction.SetPageTitle, title})
-  }, [])
+  }, [router.pathname])
 
   return (
     <div className='min-h-screen w-full flex flex-col '>
@@ -71,10 +72,12 @@ const Layout: React.FC = (props) => {
                       <div>
                         <Menu.Button className='max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white'>
                           <span className='sr-only'>Open user menu</span>
-                          <img
+                          <Image
+                            width={32}
+                            height={32}
                             className='h-8 w-8 rounded-full'
                             src={user.imageUrl}
-                            alt=''
+                            alt='user image'
                           />
                         </Menu.Button>
                       </div>
@@ -153,11 +156,12 @@ const Layout: React.FC = (props) => {
               <div className='pt-4 pb-3 border-t border-gray-700'>
                 <div className='flex items-center px-5'>
                   <div className='flex-shrink-0'>
-                    {' '}
-                    <img
+                    <Image
+                      width={32}
+                      height={32}
                       className='h-8 w-8 rounded-full'
                       src={user.imageUrl}
-                      alt=''
+                      alt='user image'
                     />
                   </div>
                   <div className='ml-3'>
