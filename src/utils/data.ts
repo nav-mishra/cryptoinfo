@@ -3,10 +3,56 @@ import { INavigationItem } from '../types/INavigationItem'
 
 const navigation: INavigationItem[] = [
   {
-    name: 'Dashboard',
+    name: 'Dataset',
     pageTitle: 'Dashboard',
     icon: OfficeBuildingIcon,
+    children: [
+      {
+        name: 'List of projects',
+        pageTitle: 'List of projects',
+        icon: OfficeBuildingIcon,
+        path: '/dataset/listofprojects',
+      },
+      {
+        name: 'Exploits',
+        pageTitle: 'Exploits',
+        icon: OfficeBuildingIcon,
+        path: '/dataset/exploits',
+      },
+      {
+        name: 'CBDC Tracker',
+        pageTitle: 'CBDC Tracker',
+        icon: OfficeBuildingIcon,
+        path: '/dataset/dbdctracker',
+      },
+      {
+        name: 'Legal cases',
+        pageTitle: 'Legal cases',
+        icon: OfficeBuildingIcon,
+        path: '/dataset/legalcases',
+      },
+    ],
     path: '/',
+  },
+  {
+    name: 'Layer 1',
+    pageTitle: 'Layer 1',
+    icon: UserIcon,
+
+    children: [
+      {
+        name: 'BTC',
+        pageTitle: 'BTC',
+        icon: OfficeBuildingIcon,
+        path: '/layer1/btc',
+      },
+      {
+        name: 'Ethereum',
+        pageTitle: 'Ethereum',
+        icon: OfficeBuildingIcon,
+        path: '/layer1/ethereum',
+      },
+    ],
   },
   {
     name: 'OtherPage',
