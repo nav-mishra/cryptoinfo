@@ -11,7 +11,7 @@ const navigation: INavigationItem[] = [
         name: 'List of projects',
         pageTitle: 'List of projects',
         icon: OfficeBuildingIcon,
-        forceAuth: true,
+        forceAuth: false,
         path: '/dataset/listofprojects',
       },
       {
