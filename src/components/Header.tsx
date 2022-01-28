@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className=''>
       <div className='pb-6 px-4 sm:px-6 lg:px-8'>
-        <h1 className='text-3xl font-bold text-gray-800'>
+        <h1 className='text-2xl font-medium text-gray-800'>
           {globalState.pageTitle}
         </h1>
       </div>

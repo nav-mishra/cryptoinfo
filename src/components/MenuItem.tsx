@@ -26,8 +26,8 @@ const MenuItem: React.FC<INavigationItem> = (props) => {
                             />
                         </Disclosure.Button>
                         <Disclosure.Panel className="px-4  pb-2 text-sm text-gray-500">
-                            {props.children?.map(item => <Link
-                                key={item.name}
+                            {props.children?.map((item, index) => <Link
+                                key={index}
                                 href={item.path ?? '/'}
                                 aria-current={true ? 'page' : undefined}>
                                 <a

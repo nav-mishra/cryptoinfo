@@ -11,6 +11,7 @@ const navigation: INavigationItem[] = [
         name: 'List of projects',
         pageTitle: 'List of projects',
         icon: OfficeBuildingIcon,
+        forceAuth: true,
         path: '/dataset/listofprojects',
       },
       {
@@ -32,13 +33,11 @@ const navigation: INavigationItem[] = [
         path: '/dataset/legalcases',
       },
     ],
-    path: '/',
   },
   {
     name: 'Layer 1',
     pageTitle: 'Layer 1',
     icon: UserIcon,
-
     children: [
       {
         name: 'BTC',
@@ -57,10 +56,27 @@ const navigation: INavigationItem[] = [
   {
     name: 'OtherPage',
     pageTitle: 'Another page',
+    forceAuth: true,
     icon: UserIcon,
     path: '/anotherpage',
   },
 ]
+
+const pathList = navigation
+  .filter((x) => x.children && x.children.length > 0)
+  .map((x) => x.children)
+  .flat()
+  .filter((x) => x != undefined)
+  .map((x) => {
+    return { path: x?.path, authRequired: x?.forceAuth }
+  })
+  .concat(
+    navigation
+      .filter((x) => x.path != undefined && x.children == undefined)
+      .map((x) => {
+        return { path: x?.path, authRequired: x?.forceAuth }
+      })
+  )
 
 const userNavigation = [
   { name: 'Your Profile', href: '/profile' },
@@ -76,5 +92,6 @@ const userNavigation = [
 
 export const data = {
   navigation,
+  pathList,
   userNavigation,
 }

@@ -4,7 +4,6 @@ class Constants {
   baseApiUrl = process.env.NEXT_PUBLIC_API_HOST
   supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  forceAuth = process.env.NEXT_PUBLIC_FORCE_AUTH ?? false
   // baseApiUrl='https://phmsapi.azurewebsites.net/api/'
   supabase = createClient(this.supabaseUrl ?? '', this.supabaseAnonKey ?? '')
 }

@@ -1,10 +1,8 @@
 import type {NextPage} from 'next'
 import {InferGetStaticPropsType} from 'next'
 import {useRouter} from 'next/router'
-import {useEffect} from 'react'
 import LoadingIndicator from '../src/components/LoadingIndicator'
 import {useUser} from '../src/hooks/useUser'
-import constants from '../src/utils/constants'
 
 
 export interface Datum {
@@ -36,11 +34,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',]
   const router = useRouter()
-  const {user} = useUser()
-
-  useEffect(() => {
-    if (constants.forceAuth && !user) router.replace('/signin')
-  }, [user])
+  const {userLoaded} = useUser()
 
   return <div className='w-full'>
     <LoadingIndicator open={!props.posts} />

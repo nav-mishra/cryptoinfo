@@ -1,18 +1,32 @@
 import {Dialog, Transition} from '@headlessui/react'
-import {MenuIcon, XIcon} from '@heroicons/react/outline'
-import Link from 'next/link'
+import {MenuIcon, UserCircleIcon, XIcon} from '@heroicons/react/outline'
 import {useRouter} from 'next/router'
 import {Fragment, useEffect, useState} from 'react'
+import {useUser} from '../hooks/useUser'
 import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
-import {classNames} from '../utils/cssUtils'
 import {data} from '../utils/data'
 import Header from './Header'
-import MenuItem from './MenuItem'
+import SideBarMenu from './SideBarMenu'
 
 const SidebarLayout: React.FC = (props) => {
   const router = useRouter()
   const globalDispatch = useGlobalDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const {userLoaded} = useUser()
+
+  useEffect(() => {
+    console.log("33", router)
+    console.log('pathList', data.pathList)
+    console.log("44", userLoaded)
+    if (!userLoaded) {
+      let authRequired = data.pathList.some(x => x.path === router.pathname && x.authRequired)
+      console.log("2", authRequired)
+      console.log("3", router)
+      console.log("4", userLoaded)
+      authRequired && router.replace('/signin')
+    }
+  }, [userLoaded, router.pathname])
 
   useEffect(() => {
     let title =
@@ -70,45 +84,12 @@ const SidebarLayout: React.FC = (props) => {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
-                  />
-                </div>
-                <nav className="mt-5 px-2 space-y-1">
-                  {data.navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.path}
-                      className={classNames(false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                      )}
-                    >
-                      {item.icon && <item.icon
-                        className={classNames(
-                          false ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                          'mr-4 flex-shrink-0 h-6 w-6'
-                        )}
-                        aria-hidden="true"
-                      />}
-                      {item.name}
-                    </a>
-                  ))}
-                </nav>
-              </div>
+              <SideBarMenu />
+
               <div className="flex-shrink-0 flex bg-gray-700 p-4">
                 <a href="#" className="flex-shrink-0 group block">
                   <div className="flex items-center">
-                    <div>
-                      <img
-                        className="inline-block h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </div>
+                    <UserCircleIcon className='font-light text-gray-300' width={40} height={40} />
                     <div className="ml-3">
                       <p className="text-base font-medium text-white">Tom Cook</p>
                       <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
@@ -126,35 +107,7 @@ const SidebarLayout: React.FC = (props) => {
       <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
-          <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
-              <Link href='/'>
-                <a className='text-gray-300 font-bold text-xl'>Cryptoinfo</a></Link>
-            </div>
-            <nav className="mt-5 flex-1 px-2 space-y-1">
-              {data.navigation.map((item) => (
-                item.children ? <MenuItem key={item.path} {...item} /> : <Link
-                  key={item.path}
-                  href={item.path ?? '/'}
-                  aria-current={true ? 'page' : undefined}><a
-                    className={classNames(
-                      'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm rounded-md'
-                    )}
-                  >
-                    {item.icon && <item.icon
-                      className={classNames(
-                        false ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />}
-                    {item.name}
-                  </a>
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <SideBarMenu />
           <div className="flex-shrink-0 flex bg-gray-700 p-4">
             <a href="#" className="flex-shrink-0 w-full group block">
               <div className="flex items-center">
@@ -173,8 +126,8 @@ const SidebarLayout: React.FC = (props) => {
           </div>
         </div >
       </div >
-      <div className="md:pl-64 flex flex-col flex-1">
-        <div className="sticky top-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100">
+      <div className="md:pl-64  flex flex-col flex-1">
+        <div className="sticky flex items-center gap-4 top-0 z-10 md:hidden pl-1 py-1 sm:pl-3 sm:py-3 bg-gray-100">
           <button
             type="button"
             className="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
@@ -182,7 +135,9 @@ const SidebarLayout: React.FC = (props) => {
           >
             <span className="sr-only">Open sidebar</span>
             <MenuIcon className="h-6 w-6" aria-hidden="true" />
+
           </button>
+          <span className='text-xl font-semibold'>Crypto Info</span>
         </div>
         <main className="flex-1">
           <div className="py-6">
