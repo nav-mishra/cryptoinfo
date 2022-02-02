@@ -1,5 +1,6 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
+import Button from '../src/components/elements/Button'
 import LoadingIndicator from '../src/components/LoadingIndicator'
 import {useUser} from '../src/hooks/useUser'
 
@@ -18,7 +19,7 @@ export interface RootObject {
 
 const Profile: NextPage = (props) => {
     const router = useRouter()
-    const {user, userLoaded} = useUser()
+    const {user, signOut, userLoaded} = useUser()
 
     // useEffect(() => {
     //     if (!user) router.replace('/signin')
@@ -27,7 +28,11 @@ const Profile: NextPage = (props) => {
     return (<div className='w-full flex'>
         <LoadingIndicator open={!userLoaded} />
         {userLoaded && <div className='w-full flex flex-row flex-wrap'>
-            {user.email}
+            Email: {user.email}
+
+            <Button onClick={() => {
+                signOut()
+            }} text='Sign out' />
         </div>
         }</div>)
 }

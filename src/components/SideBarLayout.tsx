@@ -1,29 +1,26 @@
 import {Dialog, Transition} from '@headlessui/react'
-import {MenuIcon, UserCircleIcon, XIcon} from '@heroicons/react/outline'
+import {LoginIcon, MenuIcon, XIcon} from '@heroicons/react/outline'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {Fragment, useEffect, useState} from 'react'
 import {useUser} from '../hooks/useUser'
 import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
+import {classNames} from '../utils/cssUtils'
 import {data} from '../utils/data'
 import Header from './Header'
 import SideBarMenu from './SideBarMenu'
+import UserDetails from './UserDetails'
 
 const SidebarLayout: React.FC = (props) => {
   const router = useRouter()
   const globalDispatch = useGlobalDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const {userLoaded} = useUser()
+  const {userLoaded, user} = useUser()
 
   useEffect(() => {
-    console.log("33", router)
-    console.log('pathList', data.pathList)
-    console.log("44", userLoaded)
     if (!userLoaded) {
       let authRequired = data.pathList.some(x => x.path === router.pathname && x.authRequired)
-      console.log("2", authRequired)
-      console.log("3", router)
-      console.log("4", userLoaded)
       authRequired && router.replace('/signin')
     }
   }, [userLoaded, router.pathname])
@@ -87,15 +84,8 @@ const SidebarLayout: React.FC = (props) => {
               <SideBarMenu />
 
               <div className="flex-shrink-0 flex bg-gray-700 p-4">
-                <a href="#" className="flex-shrink-0 group block">
-                  <div className="flex items-center">
-                    <UserCircleIcon className='font-light text-gray-300' width={40} height={40} />
-                    <div className="ml-3">
-                      <p className="text-base font-medium text-white">Tom Cook</p>
-                      <p className="text-sm font-medium text-gray-400 group-hover:text-gray-300">View profile</p>
-                    </div>
-                  </div>
-                </a>
+                {userLoaded ? <UserDetails email={user?.email ?? 'User'} /> : <div><Link href='/signin'>SignIn</Link></div>}
+
               </div>
             </div>
           </Transition.Child>
@@ -108,21 +98,25 @@ const SidebarLayout: React.FC = (props) => {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
           <SideBarMenu />
-          <div className="flex-shrink-0 flex bg-gray-700 p-4">
-            <a href="#" className="flex-shrink-0 w-full group block">
-              <div className="flex items-center">
-                <div>
-                  <img
-                    className="inline-block h-9 w-9 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""
-                  />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-white">Tom Cook</p>
-                  <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
-                </div>
-              </div>
-            </a>
+          <div className=" flex bg-gray-700 h-12 justify-center items-stretch">
+            {userLoaded ? <UserDetails email={user.email ?? ''} /> : <Link
+              href={'/signin'}>
+              <a
+                className={classNames(
+                  'w-full text-gray-300 hover:bg-gray-700 hover:text-white',
+                  'group flex items-center px-4 py-2 text-sm rounded-md'
+                )}
+              >
+                <LoginIcon
+                  className={classNames(
+                    false ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                    'mr-3 flex-shrink-0 h-6 w-6'
+                  )}
+                  aria-hidden="true"
+                />
+                {'Sign In'}
+              </a>
+            </Link>}
           </div>
         </div >
       </div >
