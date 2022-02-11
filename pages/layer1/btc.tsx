@@ -33,7 +33,6 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
     const router = useRouter()
     const {user} = useUser()
 
-
     return <div className='w-full'>
         <LoadingIndicator open={!props.posts} />
         <div className='w-full  text-gray-600 body-font'>

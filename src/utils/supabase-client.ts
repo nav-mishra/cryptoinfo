@@ -1,10 +1,19 @@
 import { createClient, User } from '@supabase/supabase-js'
+import { IProject } from '../types/IProject'
 import { ProductWithPrice, UserDetails } from '../types/ISubscription'
 
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
+
+export const getProjects = async (): Promise<IProject[]> => {
+  const { data, error } = await supabase.from<IProject>('Projects').select()
+
+  if (error) throw error
+
+  return data as IProject[]
+}
 
 export const getActiveProductsWithPrices = async (): Promise<
   ProductWithPrice[]
