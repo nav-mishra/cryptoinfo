@@ -1,4 +1,4 @@
-import {BookOpenIcon, ClipboardCopyIcon} from '@heroicons/react/outline'
+import {ClipboardIcon, ExternalLinkIcon} from '@heroicons/react/outline'
 import type {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
 import {useEffect, useState} from 'react'
@@ -49,7 +49,7 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
                         <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Category</th>
                         <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Subategory</th>
                         <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Link</th>
-                        <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -61,17 +61,24 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
                             <td className="px-4 py-3">{x.Category}</td>
                             <td className="px-4 py-3">{x.SubCategory}</td>
                             <td className="px-4 py-3 ">
-                                <Link href={x.Link ?? '/'}>
-                                    <a>{x.Link}</a>
-                                </Link>
-                            </td>
-                            <td>
-                                <div className='flex justify-start flex-row gap-4 '>
-                                    <div className='opacity-50 group-hover:opacity-100'>
-                                        <ClipboardCopyIcon width={25} className=' inline' />
-                                        <BookOpenIcon width={25} className='inline' />
+                                <div className='flex justify-between flex-row gap-4'>
+                                    <Link href={x.Link ?? '/'}>
+                                        <a>{x.Link}</a>
+                                    </Link>
+                                    <div className='opacity-0 group-hover:opacity-100'>
+                                        <ClipboardIcon onClick={() => {
+                                            if (navigator && navigator.clipboard) {
+                                                navigator.clipboard.writeText(x.Link ?? '')
+                                            }
+                                        }} width={25} className='inline hover:text-gray-900  active:scale-90' />
+                                        <ExternalLinkIcon onClick={() => {
+                                            window.open(x.Link, '_blank')
+                                        }} width={25} className='inline hover:text-gray-900 active:scale-90' />
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+
                             </td>
                         </tr>
                     )}

@@ -123,7 +123,7 @@ const SidebarLayout: React.FC = (props) => {
           </div>
         </div >
       </div >
-      <div className="md:pl-64  flex flex-col flex-1">
+      <div className="md:pl-64 flex flex-col flex-1">
         <div className="sticky flex items-center gap-4 top-0 z-10 md:hidden pl-1 py-1 sm:pl-3 sm:py-3 bg-gray-100">
           <button
             type="button"
@@ -137,9 +137,9 @@ const SidebarLayout: React.FC = (props) => {
           <span className='text-xl font-semibold'>Crypto Info</span>
         </div>
         <main className="flex-1">
-          <div className="">
+          <div className="flex flex-col">
             <Header />
-            <div className=" max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="w-full max-w-full mx-auto px-4 sm:px-6 md:px-8">
               {props.children}
             </div>
           </div>
