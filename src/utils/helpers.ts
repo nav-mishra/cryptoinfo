@@ -55,9 +55,14 @@ export const toDateTime = (secs: number) => {
 export const getNavigationItem = (
   path: string
 ): INavigationItem | undefined => {
-  var item = data.navigation.find((x) => x.path === path)
+  let item = data.navigation.find((x) => x.path === path)
   if (item) return item
+  console.log('not found outside')
+  let flatten: INavigationItem[] = []
+  data.navigation.forEach((x) => {
+    if (x.children) flatten = flatten.concat(...x.children)
+  })
 
-  item = data.navigation.flat().find((x) => x.path === path)
-  return item
+  let final = flatten.find((x) => x.path === path)
+  return final
 }
