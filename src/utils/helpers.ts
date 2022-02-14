@@ -1,5 +1,7 @@
 import { ISubscription, Price } from '../types/ISubscription'
+import { INavigationItem } from './../types/INavigationItem'
 import constants from './constants'
+import { data } from './data'
 
 export const getURL = () => {
   const url =
@@ -48,4 +50,14 @@ export const toDateTime = (secs: number) => {
   var t = new Date('1970-01-01T00:30:00Z') // Unix epoch start.
   t.setSeconds(secs)
   return t
+}
+
+export const getNavigationItem = (
+  path: string
+): INavigationItem | undefined => {
+  var item = data.navigation.find((x) => x.path === path)
+  if (item) return item
+
+  item = data.navigation.flat().find((x) => x.path === path)
+  return item
 }

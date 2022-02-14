@@ -24,19 +24,20 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
     }, [searchQuery])
 
     return <div className='w-full'>
-        <h3>List of projects</h3>
         <LoadingIndicator open={!projects} />
-        <div className='max-w-sm mb-4'>
-            <input
-                type="text"
-                name="searchQuery"
-                placeholder='search'
-                onChange={(e) => setSearchQuery(e.target.value)}
-                id="searchQuery"
-                autoComplete="search"
-                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-        </div>
+        <section className='flex flex-row justify-between items-center'>
+            <h3>Crypto projects</h3>
+            <div className='max-w-sm mb-4'>
+                <input
+                    type="text"
+                    name="searchQuery"
+                    placeholder='search'
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    id="searchQuery"
+                    autoComplete="search"
+                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                />
+            </div></section>
 
         <div className='text-gray-600 body-font w-full mx-auto overflow-auto'>
             <table className="table-auto w-full text-left whitespace-no-wrap">

@@ -7,6 +7,7 @@ import {useUser} from '../hooks/useUser'
 import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
 import {classNames} from '../utils/cssUtils'
 import {data} from '../utils/data'
+import {getNavigationItem} from '../utils/helpers'
 import Header from './Header'
 import SideBarMenu from './SideBarMenu'
 import UserDetails from './UserDetails'
@@ -26,9 +27,11 @@ const SidebarLayout: React.FC = (props) => {
   }, [userLoaded, router.pathname])
 
   useEffect(() => {
-    let title =
-      data.navigation.filter((x) => x.path == router.pathname)[0]?.name ?? ''
-    globalDispatch({type: GlobalStateAction.SetPageTitle, title})
+
+    let title = getNavigationItem(router.pathname)
+    console.log('SidebarLayout.useEffect', title?.name, title?.pageTitle)
+    console.log('SidebarLayout.useEffect', router.pathname)
+    globalDispatch({type: GlobalStateAction.SetPageTitle, title: title?.pageTitle ?? ''})
   }, [router.pathname])
 
   return <>
@@ -134,9 +137,9 @@ const SidebarLayout: React.FC = (props) => {
           <span className='text-xl font-semibold'>Crypto Info</span>
         </div>
         <main className="flex-1">
-          <div className="py-6">
+          <div className="">
             <Header />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className=" max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               {props.children}
             </div>
           </div>
