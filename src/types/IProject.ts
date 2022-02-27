@@ -1,6 +1,6 @@
 export interface IProject {
-  Name: string
-  Category: string
-  SubCategory: string
-  Link: string
+  name: string
+  category: string
+  subCategory: string
+  link: string
 }

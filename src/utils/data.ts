@@ -1,5 +1,6 @@
 import { OfficeBuildingIcon, UserIcon } from '@heroicons/react/outline'
 import { INavigationItem } from '../types/INavigationItem'
+import { IProject } from './../types/IProject'
 
 const navigation: INavigationItem[] = [
   {
@@ -95,3 +96,18 @@ export const data = {
   pathList,
   userNavigation,
 }
+
+export const projectList: IProject[] = [
+  {
+    name: 'Zabo',
+    category: 'Wallets',
+    subCategory: 'Custody',
+    link: 'https://zabo.com/',
+  },
+  {
+    name: 'Brave',
+    category: 'Browsers',
+    subCategory: 'Applications',
+    link: 'https://brave.com/',
+  },
+]

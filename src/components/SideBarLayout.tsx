@@ -27,10 +27,7 @@ const SidebarLayout: React.FC = (props) => {
   }, [userLoaded, router.pathname])
 
   useEffect(() => {
-
     let title = getNavigationItem(router.pathname)
-    console.log('SidebarLayout.useEffect', title?.name, title?.pageTitle)
-    console.log('SidebarLayout.useEffect', router.pathname)
     globalDispatch({type: GlobalStateAction.SetPageTitle, title: title?.pageTitle ?? ''})
   }, [router.pathname])
 
