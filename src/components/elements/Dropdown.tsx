@@ -15,11 +15,11 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
 
     return (
         <div className=" text-right">
-            <Menu as="div" className="w-full relative inline-block text-left">
+            <Menu as="div" className="w-full relative inline-block text-left focus:ring-gray-500 focus:border-gray-500">
                 {({open}) => (
                     <>
                         <div>
-                            <Menu.Button className={classNames("inline-flex justify-center w-full px-4 py-2 text-sm font-medium  border rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-opacity-75",
+                            <Menu.Button className={classNames("border-gray-600 ring-gray-600 focus:ring-gray-500 focus:border-gray-500 inline-flex justify-center w-full px-4 py-2 text-sm font-medium  border rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-600 focus-visible:ring-opacity-75",
                                 props.disabled ? 'text-gray-400' : 'text-gray-800'
                             )}>
                                 {props.selected ? props.items.find(x => x.key == props.selected)?.value ?? props.title : props.title}

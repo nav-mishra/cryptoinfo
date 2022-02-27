@@ -4,7 +4,7 @@ const LoadingIndicator: React.FC<{open: boolean}> = (props) => {
   if (!props.open) return null
 
   return (
-    <div className='static h-screen bg-gray-200 bg-opacity-60 z-50'>
+    <div className='static h-screen z-50'>
       <svg
         fill='none'
         className='relative w-20 h-20 animate-spin top-1/2 left-1/2'

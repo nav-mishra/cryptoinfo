@@ -38,26 +38,26 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
 
   return <div className='w-full'>
     <LoadingIndicator open={!props.posts} />
-    <div className='w-full  text-gray-600 body-font'>
+    <div className='w-full body-font'>
 
       <div className="w-full mx-auto overflow-auto">
         <table className="table-auto w-full text-left whitespace-no-wrap">
           <thead>
-            <tr>
-              <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Month</th>
-              <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Day</th>
-              <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Address count</th>
-              <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Asset</th>
+            <tr className='bg-gray-800'>
+              <th className="px-4 py-3 title-font tracking-wider font-medium  text-sm rounded-tl rounded-bl">Month</th>
+              <th className="px-4 py-3 title-font tracking-wider font-medium  text-sm ">Day</th>
+              <th className="px-4 py-3 title-font tracking-wider font-medium  text-sm ">Address count</th>
+              <th className="px-4 py-3 title-font tracking-wider font-medium  text-sm ">Asset</th>
             </tr>
           </thead>
           <tbody>
             {props.posts.map((x, index) =>
-              <tr key={index}>
+              <tr key={index} className='hover:bg-gray-800'>
 
                 <td className="px-4 py-3">{months[new Date(Date.parse(x.time)).getMonth()]}</td>
                 <td className="px-4 py-3">{new Date(Date.parse(x.time)).getDay()}</td>
                 <td className="px-4 py-3">{x.AdrActCnt}</td>
-                <td className="px-4 py-3 text-lg text-gray-900">{x.asset}</td>
+                <td className="px-4 py-3 text-lg ">{x.asset}</td>
               </tr>
             )}
           </tbody>

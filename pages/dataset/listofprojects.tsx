@@ -44,7 +44,7 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
     return <div className='w-full'>
         <LoadingIndicator open={!projects} />
         <section className='flex gap-4 justify-end items-baseline mb-4 '>
-            <Dropdown title='select cateogry' selected={categoryFilter == '' ? 'Category' : categoryFilter} onSelection={(key) => {
+            <Dropdown title='select cateogry' selected={!categoryFilter ? 'Category' : categoryFilter} onSelection={(key) => {
                 setCategoryFilter(key)
                 setSubCategoryFilter('')
             }} items={[{key: '', value: 'All'}, ...test.map(c => {return {key: c.category, value: c.category}})]} />
@@ -57,24 +57,23 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
                 onChange={(e) => setSearchQuery(e.target.value)}
                 id="searchQuery"
                 autoComplete="search"
-                className="focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+                className="focus:ring-gray-500 focus:border-gray-500 block shadow-sm sm:text-sm border-gray-600 bg-transparent rounded-md"
             />
         </section>
 
-        <div className='text-gray-600 body-font w-full mx-auto overflow-auto'>
-            <table className="table-auto w-full text-left whitespace-no-wrap">
+        <div className='body-font w-full mx-auto overflow-auto'>
+            <table className="table-auto w-full text-left whitespace-no-wrap ">
                 <thead>
-                    <tr>
-                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Name</th>
-                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Category</th>
-                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Subategory</th>
-                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Link</th>
-
+                    <tr className='bg-gray-800'>
+                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Name</th>
+                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Category</th>
+                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Subategory</th>
+                        <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Link</th>
                     </tr>
                 </thead>
                 <tbody>
                     {projects.map((x, index) =>
-                        <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-100' key={index} onDoubleClick={() => {
+                        <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} onDoubleClick={() => {
                             window.open(x.Link, '_blank')
                         }}>
                             <td className="px-4 py-3">{x.Name}</td>

@@ -19,7 +19,7 @@ const SideBarMenu = () => {
                         href={item.path ?? '/'}
                         aria-current={true ? 'page' : undefined}><a
                             className={classNames(
-                                'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'text-gray-300 hover:bg-gray-800 hover:text-white',
                                 'group flex items-center px-2 py-2 text-sm rounded-md'
                             )}
                         >
