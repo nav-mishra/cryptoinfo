@@ -8,7 +8,6 @@ import {getProjects} from '../../src/utils/supabase-client'
 
 
 export const getStaticProps = async () => {
-
     const data = await getProjects()
 
     return {
@@ -18,20 +17,19 @@ export const getStaticProps = async () => {
     }
 }
 
-const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
     const [projects, setProjects] = useState([...props.projects])
     const [searchQuery, setSearchQuery] = useState('')
     const [categoryFilter, setCategoryFilter] = useState('')
     const [subCategoryFilter, setSubCategoryFilter] = useState('')
     const categories = props.projects.map(x => {return {category: x.Category, subcategory: x.SubCategory}})
-    const test = categories.reduce((a: {category: string, subcategory: string}[], b) => {
+    const subcategories = categories.reduce((a: {category: string, subcategory: string}[], b) => {
         const hasProduct = !!a.find((u) => u.category == b.category && u.subcategory == b.subcategory)
         if (!hasProduct)
             return [...a, b]
 
         return a
     }, [])
-
 
     useEffect(() => {
         setProjects([...props.projects.filter(x =>
@@ -47,8 +45,8 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
             <Dropdown title='select cateogry' selected={!categoryFilter ? 'Category' : categoryFilter} onSelection={(key) => {
                 setCategoryFilter(key)
                 setSubCategoryFilter('')
-            }} items={[{key: '', value: 'All'}, ...test.map(c => {return {key: c.category, value: c.category}})]} />
-            <Dropdown title='sub-cateogry' selected={subCategoryFilter == '' ? 'select sub-category' : subCategoryFilter} disabled={categoryFilter == ''} onSelection={(key) => setSubCategoryFilter(key)} items={[{key: '', value: 'All'}, ...test.filter(f => categoryFilter == '' || f.category.toLowerCase() == categoryFilter.toLowerCase()).map(x => {return {key: x.subcategory, value: x.subcategory}})]} />
+            }} items={[{key: '', value: 'All'}, ...subcategories.map(c => {return {key: c.category, value: c.category}})]} />
+            <Dropdown title='sub-cateogry' selected={subCategoryFilter == '' ? 'select sub-category' : subCategoryFilter} disabled={categoryFilter == ''} onSelection={(key) => setSubCategoryFilter(key)} items={[{key: '', value: 'All'}, ...subcategories.filter(f => categoryFilter == '' || f.category.toLowerCase() == categoryFilter.toLowerCase()).map(x => {return {key: x.subcategory, value: x.subcategory}})]} />
 
             <input
                 type="text"
@@ -104,4 +102,4 @@ const Profile: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props
     </div >
 }
 
-export default Profile
+export default ProjectsPage
