@@ -110,7 +110,7 @@ const SignUp = () => {
               <span className='text-gray-200  mr-2 '>Have an account?</span>
               <Link href='/signin'>
                 <a className='text-accent-9 text-lg font-bold hover:underline cursor-pointer'>
-                  Sign up.
+                  Sign in.
                 </a>
               </Link>
             </span>

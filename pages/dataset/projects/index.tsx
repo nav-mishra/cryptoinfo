@@ -2,9 +2,9 @@ import {ClipboardIcon, ExternalLinkIcon} from '@heroicons/react/outline'
 import type {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
 import {useEffect, useState} from 'react'
-import Dropdown from '../../src/components/elements/Dropdown'
-import LoadingIndicator from '../../src/components/LoadingIndicator'
-import {getProjects} from '../../src/utils/supabase-client'
+import Dropdown from '../../../src/components/elements/Dropdown'
+import LoadingIndicator from '../../../src/components/LoadingIndicator'
+import {getProjects} from '../../../src/utils/supabase-client'
 
 
 export const getStaticProps = async () => {
@@ -71,30 +71,35 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
                 </thead>
                 <tbody>
                     {projects.map((x, index) =>
-                        <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} onDoubleClick={() => {
-                            window.open(x.Link, '_blank')
-                        }}>
-                            <td className="px-4 py-3">{x.Name}</td>
-                            <td className="px-4 py-3">{x.Category}</td>
-                            <td className="px-4 py-3">{x.SubCategory}</td>
-                            <td className="px-4 py-3 ">
-                                <div className='flex justify-between flex-row gap-4'>
-                                    <Link href={x.Link ?? '/'}>
-                                        <a>{x.Link}</a>
-                                    </Link>
-                                    <div className='opacity-0 group-hover:opacity-100'>
-                                        <ClipboardIcon onClick={() => {
-                                            if (navigator && navigator.clipboard) {
-                                                navigator.clipboard.writeText(x.Link ?? '')
-                                            }
-                                        }} width={25} className='inline hover:text-gray-900  active:scale-90' />
-                                        <ExternalLinkIcon onClick={() => {
-                                            window.open(x.Link, '_blank')
-                                        }} width={25} className='inline hover:text-gray-900 active:scale-90' />
+                        <Link key={index} href={`/dataset/projects/${x.Name}`} passHref={true}>
+                            <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} >
+
+
+                                <td className="px-4 py-3">
+                                    {x.Name}
+                                </td>
+                                <td className="px-4 py-3">{x.Category}</td>
+                                <td className="px-4 py-3">{x.SubCategory}</td>
+                                <td className="px-4 py-3 ">
+                                    <div className='flex justify-between flex-row gap-4'>
+                                        <Link href={x.Link ?? '/'}>
+                                            <a>{x.Link}</a>
+                                        </Link>
+                                        <div className='opacity-0 group-hover:opacity-100'>
+                                            <ClipboardIcon onClick={() => {
+                                                if (navigator && navigator.clipboard) {
+                                                    navigator.clipboard.writeText(x.Link ?? '')
+                                                }
+                                            }} width={25} className='inline hover:text-gray-900  active:scale-90' />
+                                            <ExternalLinkIcon onClick={() => {
+                                                window.open(x.Link, '_blank')
+                                            }} width={25} className='inline hover:text-gray-900 active:scale-90' />
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+
+                            </tr>
+                        </Link>
                     )}
                 </tbody>
             </table>

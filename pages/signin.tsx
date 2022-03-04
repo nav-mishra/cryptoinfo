@@ -172,13 +172,6 @@ const SignIn = () => {
                   className='border-t border-gray-600 flex-grow ml-3'
                   aria-hidden='true'></div>
               </div>
-
-              <Button
-                text='Continue with GitHub'
-                primary={false}
-                disabled={loading}
-                onClick={() => handleOAuthSignIn('github')} />
-
             </div >
           </div>
         </section >
