@@ -4,15 +4,20 @@ import Link from 'next/link'
 import {useEffect, useState} from 'react'
 import Dropdown from '../../../src/components/elements/Dropdown'
 import LoadingIndicator from '../../../src/components/LoadingIndicator'
-import {getProjects} from '../../../src/utils/supabase-client'
+import {IProject} from '../../../src/types/IProject'
 
 
 export const getStaticProps = async () => {
-    const data = await getProjects()
-
+    //const data = await getProjects()
+    const dat: IProject[] = [{
+        Category: 'Wallet',
+        Link: 'https://www.jenkinsthevalet.com/',
+        Name: 'Jenkins the Valet',
+        SubCategory: 'NFT'
+    }]
     return {
         props: {
-            projects: data,
+            projects: dat,
         },
     }
 }

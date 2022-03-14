@@ -1,16 +1,69 @@
-import { OfficeBuildingIcon } from '@heroicons/react/outline'
+import {
+  BriefcaseIcon,
+  CalendarIcon,
+  CashIcon,
+  ChartBarIcon,
+  ClipboardListIcon,
+  CollectionIcon,
+  EyeIcon,
+  OfficeBuildingIcon,
+  RssIcon,
+  ShieldExclamationIcon,
+} from '@heroicons/react/outline'
 import { INavigationItem } from '../types/INavigationItem'
 
 const navigation: INavigationItem[] = [
   {
+    name: 'Projects',
+    pageTitle: 'Projects',
+    icon: ClipboardListIcon,
+    forceAuth: false,
+    path: '/dataset/projects',
+  },
+  {
+    name: 'Reports',
+    pageTitle: 'projects',
+    icon: ChartBarIcon,
+    forceAuth: false,
+    path: '/dataset/projects',
+  },
+  {
+    name: 'Events',
+    pageTitle: 'projects',
+    icon: CalendarIcon,
+    forceAuth: false,
+    path: '/dataset/projects',
+  },
+  {
+    name: 'Feed',
+    pageTitle: 'projects',
+    icon: RssIcon,
+    forceAuth: false,
+    path: '/dataset/projects',
+  },
+  {
     name: 'Dataset',
     pageTitle: 'Dashboard',
-    icon: OfficeBuildingIcon,
+    icon: CollectionIcon,
     children: [
       {
-        name: 'Projects',
+        name: 'Exploits',
         pageTitle: 'projects',
-        icon: OfficeBuildingIcon,
+        icon: ShieldExclamationIcon,
+        forceAuth: false,
+        path: '/dataset/projects',
+      },
+      {
+        name: 'CBDC Tracker',
+        pageTitle: 'projects',
+        icon: EyeIcon,
+        forceAuth: false,
+        path: '/dataset/projects',
+      },
+      {
+        name: 'Legal Cases',
+        pageTitle: 'projects',
+        icon: BriefcaseIcon,
         forceAuth: false,
         path: '/dataset/projects',
       },
@@ -34,32 +87,27 @@ const navigation: INavigationItem[] = [
       // },
     ],
   },
-  // {
-  //   name: 'Layer 1',
-  //   pageTitle: 'Layer 1',
-  //   icon: UserIcon,
-  //   children: [
-  //     {
-  //       name: 'BTC',
-  //       pageTitle: 'BTC',
-  //       icon: OfficeBuildingIcon,
-  //       path: '/layer1/btc',
-  //     },
-  //     {
-  //       name: 'Ethereum',
-  //       pageTitle: 'Ethereum',
-  //       icon: OfficeBuildingIcon,
-  //       path: '/layer1/ethereum',
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: 'OtherPage',
-  //   pageTitle: 'Another page',
-  //   forceAuth: true,
-  //   icon: UserIcon,
-  //   path: '/anotherpage',
-  // },
+  {
+    name: 'L1',
+    pageTitle: 'Layer 1',
+    icon: CashIcon,
+    children: [
+      {
+        name: 'BTC',
+        pageTitle: 'ETH',
+        icon: OfficeBuildingIcon,
+        forceAuth: false,
+        path: '/l1/btc',
+      },
+      {
+        name: 'ETH',
+        pageTitle: 'ETH',
+        icon: OfficeBuildingIcon,
+        forceAuth: false,
+        path: '/l1/eth',
+      },
+    ],
+  },
 ]
 
 const pathList = navigation
