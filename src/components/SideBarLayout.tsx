@@ -35,11 +35,6 @@ const SidebarLayout: React.FC = (props) => {
   }, [router.pathname])
 
   return <>
-    {/*
-    <html class="h-full bg-gray-100">
-    <body class="h-full">
-
-  */}
     <div className=''>
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden border-r border-gray-800" onClose={setSidebarOpen}>

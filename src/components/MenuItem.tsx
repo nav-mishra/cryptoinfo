@@ -12,7 +12,7 @@ const MenuItem: React.FC<INavigationItem> = (props) => {
                 {({open}) => (
                     <>
                         <Disclosure.Button className="flex justify-between px-2 py-2  w-full text-left text-gray-300 rounded-lg hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75">
-                            <div className='flex'>{props.icon && <props.icon
+                            <div className='flex'>{props.showIcon && props.icon && <props.icon
                                 className={classNames(
                                     false ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                                     'mr-3 flex-shrink-0 h-6 w-6'
@@ -38,7 +38,7 @@ const MenuItem: React.FC<INavigationItem> = (props) => {
                                         'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                                     )}
                                 >
-                                    {item.icon && <item.icon
+                                    {props.showIcon && item.icon && <item.icon
                                         className={classNames(
                                             false ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
                                             'mr-3 flex-shrink-0 h-6 w-6'

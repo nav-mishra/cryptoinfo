@@ -3,6 +3,7 @@ export interface INavigationItem {
   pageTitle: string
   icon?: (props: React.ComponentProps<'svg'>) => JSX.Element
   path?: string
+  showIcon?: boolean
   forceAuth?: boolean
   children?: INavigationItem[]
 }

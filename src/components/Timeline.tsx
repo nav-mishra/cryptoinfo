@@ -16,21 +16,20 @@ const Timeline = () => {
         {title: "January 3, 2022", details: " Licensing closed, with 4,075 Apes/Mutants licensed to Book 1, all receiving royalties for leveraging their IP."},
         {title: "January 4, 2022", details: " Book 1 writing begins with this summary of what had been voted on so far"},
         {title: "January 31, 2022", details: " Roadmap 2.0 is announced (announcement) with details of what holders of the Book1 NFT can do and what the content universe looks like."},
-    ]
+    ].reverse()
 
 
     return (
         <section className="container  py-4 mx-auto flex flex-wrap">
-
-            <div className="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
+            <div className="w-full ">
                 {timeline.map((x, index) =>
                     <div className={classNames("flex relative", index == timeline.length - 1 ? "" : "pb-6")} key={index}>
                         <div className="h-full w-10 absolute inset-0 flex items-center justify-center">
                             <div className="h-full w-1 bg-gray-200 pointer-events-none"></div>
                         </div>
                         <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
-                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
                         <div className="flex-grow pl-4">

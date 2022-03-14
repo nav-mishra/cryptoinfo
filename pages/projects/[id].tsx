@@ -2,9 +2,11 @@ import {Tab} from '@headlessui/react'
 import {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import React from 'react'
-import Profile from '../../../src/components/projects/Profile'
-import Timeline from '../../../src/components/Timeline'
-import {classNames} from '../../../src/utils/cssUtils'
+import Finances from '../../src/components/projects/Finances'
+import Metrics from '../../src/components/projects/Metrics'
+import Profile from '../../src/components/projects/Profile'
+import Timeline from '../../src/components/Timeline'
+import {classNames} from '../../src/utils/cssUtils'
 
 const ProjectDetailPage: NextPage = (props) => {
     const router = useRouter()
@@ -42,7 +44,7 @@ const ProjectDetailPage: NextPage = (props) => {
                     <Tab.Panels className="w-full mt-2">
                         <Tab.Panel
                             className={classNames(
-                                'rounded-xl p-3',
+                                'rounded-xl p-1',
                                 'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
                             )}
                         >
@@ -50,7 +52,7 @@ const ProjectDetailPage: NextPage = (props) => {
                         </Tab.Panel>
                         <Tab.Panel
                             className={classNames(
-                                'rounded-xl p-3',
+                                'rounded-xl p-1',
                                 'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
                             )}
                         >
@@ -58,19 +60,19 @@ const ProjectDetailPage: NextPage = (props) => {
                         </Tab.Panel>
                         <Tab.Panel
                             className={classNames(
-                                'rounded-xl p-3',
+                                'rounded-xl p-1',
                                 'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
                             )}
                         >
-                            ef
+                            <Metrics />
                         </Tab.Panel>
                         <Tab.Panel
                             className={classNames(
-                                'rounded-xl p-3',
+                                'rounded-xl p-1',
                                 'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
                             )}
                         >
-                            gh
+                            <Finances />
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>

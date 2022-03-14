@@ -2,9 +2,9 @@ import {ClipboardIcon, ExternalLinkIcon} from '@heroicons/react/outline'
 import type {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
 import {useEffect, useState} from 'react'
-import Dropdown from '../../../src/components/elements/Dropdown'
-import LoadingIndicator from '../../../src/components/LoadingIndicator'
-import {IProject} from '../../../src/types/IProject'
+import Dropdown from '../../src/components/elements/Dropdown'
+import LoadingIndicator from '../../src/components/LoadingIndicator'
+import {IProject} from '../../src/types/IProject'
 
 
 export const getStaticProps = async () => {
@@ -65,9 +65,9 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
         </section>
 
         <div className='body-font w-full mx-auto overflow-auto'>
-            <table className="table-auto w-full text-left whitespace-no-wrap ">
-                <thead>
-                    <tr className='bg-gray-800'>
+            <table className="table-auto w-full text-left whitespace-no-wrap">
+                <thead className='bg-gray-900'>
+                    <tr className='bg-black bg-opacity-40'>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Name</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Category</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Subategory</th>
@@ -76,7 +76,7 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
                 </thead>
                 <tbody>
                     {projects.map((x, index) =>
-                        <Link key={index} href={`/dataset/projects/${x.Name}`} passHref={true}>
+                        <Link key={index} href={`/projects/${x.Name}`} passHref={true}>
                             <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} >
 
 
