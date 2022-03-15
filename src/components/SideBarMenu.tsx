@@ -9,7 +9,7 @@ const SideBarMenu = () => {
     return <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div className="flex items-center flex-shrink-0 px-4">
             <Link href='/'>
-                <a className='text-gray-300 font-bold text-xl'>Cryptoinfo</a></Link>
+                <a className='text-gray-300 font-bold text-xl'>Actuals</a></Link>
         </div>
         <nav className="mt-5 flex-1 px-2 space-y-1">
             {data.navigation.map((item, index) => (

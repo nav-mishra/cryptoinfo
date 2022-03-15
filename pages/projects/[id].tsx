@@ -26,11 +26,10 @@ const ProjectDetailPage: NextPage = (props) => {
                 <Tab.Group>
                     <Tab.List className="flex h-10 bg-gray-800 justify-start p-1 space-x-1">
                         {tabs.map((tab, index) => <Tab
-
                             className={({selected}) =>
                                 classNames(
-                                    'px-6 border-opacity-75 border-grayay-700 border-r text-sm  font-medium',
-                                    'focus:outline-none focus:bg-gray-700 focus:text-gray-300',
+                                    'px-6 border-opacity-90 border-gray-600 border-r text-sm font-medium',
+                                    'focus:outline-none focus:bg-indigo-600 focus:text-gray-300 ',
                                     selected
                                         ? 'shadow hover:text-gray-400 '
                                         : 'text-blue-100  hover:text-gray-400'

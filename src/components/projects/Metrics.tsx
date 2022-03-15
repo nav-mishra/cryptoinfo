@@ -82,15 +82,14 @@ const Metrics = () => {
             </div>
             <div className='h-96 mt-24'>
                 <h2>Top holders</h2>
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart width={400} height={400} className='flex flex-col w-full h-full'>
-
-                        <Pie legendType='square' data={pieData} dataKey="value" cx="25%" cy="50%" innerRadius={70} outerRadius={90}  >
+                <ResponsiveContainer >
+                    <PieChart className=''>
+                        <Pie legendType='square' data={pieData} dataKey="value" cx="6.5%" innerRadius={100} outerRadius={140}  >
                             {pieData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={`#${entry.name.substring(36)}`} />
                             ))}
                         </Pie>
-                        <Legend verticalAlign="top" align='right' height={36} />
+                        <Legend className='' verticalAlign="top" align='right' height={36} />
                     </PieChart>
 
                 </ResponsiveContainer>

@@ -14,8 +14,8 @@ import { INavigationItem } from '../types/INavigationItem'
 
 const navigation: INavigationItem[] = [
   {
-    name: 'Actuals',
-    pageTitle: 'Actuals',
+    name: 'Projects',
+    pageTitle: 'Projects',
     icon: ClipboardListIcon,
     forceAuth: false,
     path: '/projects',
