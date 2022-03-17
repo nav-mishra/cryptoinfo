@@ -41,6 +41,14 @@ const ProjectDetailPage: NextPage = (props) => {
                         </Tab>)}
                     </Tab.List>
                     <Tab.Panels className="w-full mt-2">
+                             <Tab.Panel
+                            className={classNames(
+                                'rounded-xl p-1',
+                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                            )}
+                        >
+                            <Summary />
+                        </Tab.Panel>
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
@@ -72,6 +80,14 @@ const ProjectDetailPage: NextPage = (props) => {
                             )}
                         >
                             <Finances />
+                        </Tab.Panel>
+                         <Tab.Panel
+                            className={classNames(
+                                'rounded-xl p-1',
+                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                            )}
+                        >
+                            <News />
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
