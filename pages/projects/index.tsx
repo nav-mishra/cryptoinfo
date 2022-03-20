@@ -66,8 +66,8 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 
         <div className='body-font w-full mx-auto overflow-auto'>
             <table className="table-auto w-full text-left whitespace-no-wrap">
-                <thead className='bg-gray-900'>
-                    <tr className='bg-black bg-opacity-40'>
+                <thead className='dark:bg-gray-900 bg-gray-300'>
+                    <tr className='dark:bg-black bg-opacity-40 '>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Name</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Category</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Subategory</th>
@@ -77,7 +77,7 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
                 <tbody>
                     {projects.map((x, index) =>
                         <Link key={index} href={`/projects/${x.Name}`} passHref={true}>
-                            <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} >
+                            <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-800' key={index} >
 
 
                                 <td className="px-4 py-3">
