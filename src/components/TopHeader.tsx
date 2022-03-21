@@ -1,7 +1,7 @@
-import {Disclosure, Menu, Transition} from '@headlessui/react'
-import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/outline'
+import {Disclosure} from '@headlessui/react'
+import {MenuIcon, XIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
-import React, {Fragment} from 'react'
+import React from 'react'
 import {useUser} from '../hooks/useUser'
 import {useGlobalState} from '../store/GlobalStore'
 import {classNames} from '../utils/cssUtils'
@@ -13,24 +13,23 @@ const TopHeader = () => {
   const {userLoaded, user} = useUser()
 
   return (
-    <Disclosure as="nav" className="">
+    <Disclosure as="nav" className="shadow">
       {({open}) => (
         <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <h2>Actuals</h2>
-                </div>
+          <div className="flex items-center justify-between ">
+            <h2 className='font-semibold text-xl flex-shrink-0 px-4  '><Link href="/">Actuals</Link></h2>
+
+            <div className='flex flex-row items-center'>
+              <div className="flex items-center justify-end">
                 <div className="hidden md:block">
-                  <div className="ml-10 flex items-baseline space-x-4">
+                  <div className=" flex items-baseline space-x-4">
                     {data.navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.path}
                         className={classNames(
-                          'hover:text-blue-400',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          'hover:text-blue-600',
+                          'px-3 py-4 text-sm font-medium  border-transparent hover:border-blue-600 border-b-2'
                         )}
                         aria-current={'page'}
                       >
@@ -42,65 +41,22 @@ const TopHeader = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                  <button
-                    type="button"
-                    className=" p-1 rounded-full  hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="ml-3 relative">
-                    <div>
-                      <Menu.Button className="max-w-xs  rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Open user menu</span>
-                        <div className="ml-3">
-                          {userLoaded ? <UserDetails email={user?.email ?? 'User'} /> : <div><Link href='/signin'>SignIn</Link></div>}
-                        </div>
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {data.userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
-                            {({active}) => (
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  active ? '' : '',
-                                  'block px-4 py-2 text-sm '
-                                )}
-                              >
-                                {item.name}
-                              </a>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+                  <div className="mr-3">
+                    {userLoaded ? <UserDetails email={user?.email ?? 'User'} /> : <div className='text-sm font-medium'><Link href='/signin'>Sign in</Link></div>}
+                  </div>
                 </div>
               </div>
-              <div className="-mr-2 flex md:hidden">
-                {/* Mobile menu button */}
-                <Disclosure.Button className=" inline-flex items-center justify-center p-2 rounded-md  hover:text-blue-400 hover: focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
+            </div>
+            <div className="-mr-2 flex md:hidden">
+              {/* Mobile menu button */}
+              <Disclosure.Button className=" inline-flex items-center justify-center p-2 rounded-md  hover:text-blue-400 hover: focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                <span className="sr-only">Open main menu</span>
+                {open ? (
+                  <XIcon className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </Disclosure.Button>
             </div>
           </div>
 
@@ -126,13 +82,6 @@ const TopHeader = () => {
                 <div className="ml-3">
                   {userLoaded ? <UserDetails email={user?.email ?? 'User'} /> : <div><Link href='/signin'>SignIn</Link></div>}
                 </div>
-                <button
-                  type="button"
-                  className="ml-auto  flex-shrink-0 p-1 rounded-full  hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
               </div>
               <div className="mt-3 px-2 space-y-1">
                 {data.userNavigation.map((item) => (

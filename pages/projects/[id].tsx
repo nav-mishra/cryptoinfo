@@ -5,6 +5,7 @@ import React from 'react'
 import Finances from '../../src/components/projects/Finances'
 import Metrics from '../../src/components/projects/Metrics'
 import Profile from '../../src/components/projects/Profile'
+import Summary from '../../src/components/projects/Summary'
 import Timeline from '../../src/components/Timeline'
 import {classNames} from '../../src/utils/cssUtils'
 
@@ -12,7 +13,7 @@ const ProjectDetailPage: NextPage = (props) => {
     const router = useRouter()
     const {id} = router.query
 
-    const tabs = ["Profile", "Updates", "Metrics", "Finances"]
+    const tabs = ["Summary", "Profile", "Updates", "Metrics", "Finances"]
 
     return (
         <section>
@@ -23,16 +24,17 @@ const ProjectDetailPage: NextPage = (props) => {
                 </div>
             </section>
             <div className="mt-5">
+
                 <Tab.Group>
-                    <Tab.List className="flex h-10 bg-gray-800 justify-start p-1 space-x-1">
+                    <Tab.List className="flex space-x-2 border-b">
                         {tabs.map((tab, index) => <Tab
                             className={({selected}) =>
                                 classNames(
-                                    'px-6 border-opacity-90 border-gray-600 border-r text-sm font-medium',
-                                    'focus:outline-none focus:bg-indigo-600 focus:text-gray-300 ',
+                                    'inline-block py-4 px-4 text-sm font-medium text-center bg-gray-100 rounded-t-lg ',
+                                    '',
                                     selected
-                                        ? 'shadow hover:text-gray-400 '
-                                        : 'text-blue-100  hover:text-gray-400'
+                                        ? 'bg-blue-200'
+                                        : ''
                                 )
                             }
                             key={index}
@@ -44,7 +46,15 @@ const ProjectDetailPage: NextPage = (props) => {
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
-                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                                'focus:outline-none '
+                            )}
+                        >
+                            <Summary />
+                        </Tab.Panel>
+                        <Tab.Panel
+                            className={classNames(
+                                'rounded-xl p-1',
+                                'focus:outline-none '
                             )}
                         >
                             <Profile />
@@ -52,7 +62,7 @@ const ProjectDetailPage: NextPage = (props) => {
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
-                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                                ''
                             )}
                         >
                             <Timeline />
@@ -60,7 +70,7 @@ const ProjectDetailPage: NextPage = (props) => {
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
-                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                                ''
                             )}
                         >
                             <Metrics />
@@ -68,7 +78,7 @@ const ProjectDetailPage: NextPage = (props) => {
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
-                                'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60'
+                                ''
                             )}
                         >
                             <Finances />

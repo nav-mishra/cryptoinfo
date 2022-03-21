@@ -35,7 +35,7 @@ const Layout: React.FC = (props) => {
     <div className="flex flex-col h-full">
       <TopHeader />
 
-      <main className='flex-1 flex-grow flex-shrink-0 py-4'>
+      <main className='flex-1 flex-grow flex-shrink-0 py-4 px-4'>
         <div className="">
           {props.children}
         </div>
