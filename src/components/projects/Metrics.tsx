@@ -89,7 +89,7 @@ const Metrics = () => {
                                 <Cell key={`cell-${index}`} fill={`#${entry.name.substring(36)}`} />
                             ))}
                         </Pie>
-                        <Legend className='overflow-hidden' accentHeight={20} verticalAlign="top" align='right' height={12} />
+                        <Legend className='overflow-hidden' verticalAlign="top" align='right' height={12} />
                     </PieChart>
 
                 </ResponsiveContainer>
