@@ -1,5 +1,5 @@
 import React from 'react'
-import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
+import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
 
 
 const data = [
@@ -53,6 +53,56 @@ const data = [
     },
 ]
 
+const dataTreasury = [
+    {
+        name: 'Aug 2021',
+        holders: Math.random() * 2000,
+        new: Math.random() * 2000,
+        amt: Math.random() * 2000,
+    },
+    {
+        name: 'Sep 2021',
+        holders: 3300,
+        new: 2598,
+        amt: 2250,
+    },
+    {
+        name: 'Oct 2021',
+        holders: 4300,
+        new: 4200,
+        amt: 2890,
+    },
+    {
+        name: 'Nov 2021',
+        holders: 4610,
+        new: 3208,
+        amt: 2500,
+    },
+    {
+        name: 'Dec 2021',
+        holders: 5290,
+        new: 3800,
+        amt: 2181,
+    },
+    {
+        name: 'Jan 2022',
+        holders: 4390,
+        new: 4200,
+        amt: 2500,
+    },
+    {
+        name: 'Feb 2022',
+        holders: 4908,
+        new: 4100,
+        amt: 2100,
+    },
+    {
+        name: 'Mar 2022',
+        holders: 5590,
+        new: 4300,
+        amt: 2100,
+    },
+]
 
 const dataF = [
     {
@@ -105,6 +155,28 @@ const dataF = [
     },
 ]
 
+const dataPie = [
+    {name: 'VC', value: 400},
+    {name: 'Team', value: 300},
+    {name: 'Retail', value: 300},
+    {name: 'Other', value: 200},
+]
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+
+const RADIAN = Math.PI / 180
+const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, percent, index}: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+    const x = cx + radius * Math.cos(-midAngle * RADIAN)
+    const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+    return (
+        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}% - `}
+        </text>
+    )
+}
+
 const Summary = () => {
     return (
         <div>
@@ -125,8 +197,9 @@ const Summary = () => {
 
             </section>
             <section className='mt-4'>
-                <div className='h-96 flex flex-row space-x-4 justify-between items-center'>
-                    <section className='w-full h-full'>
+                <div className="grid grid-cols-2 h-full gap-4">
+
+                    <section className='w-full h-96'>
                         <h2 className='mx-12 text-lg font-semibold'>Unique holders</h2>
                         <ResponsiveContainer className='' width="100%" height="100%">
                             <LineChart
@@ -149,7 +222,7 @@ const Summary = () => {
                             </LineChart>
                         </ResponsiveContainer>
                     </section>
-                    <section className='w-full h-full'>
+                    <section className='w-full h-96'>
                         <h2 className='mx-12 text-lg font-semibold'>Floor over time</h2>
                         <ResponsiveContainer className='' width="100%" height="100%">
                             <LineChart
@@ -172,9 +245,55 @@ const Summary = () => {
                             </LineChart>
                         </ResponsiveContainer>
                     </section>
+                    <section className='w-full h-96'>
+                        <h2 className='mx-12 text-lg font-semibold'>Type of holders</h2>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart width={400} height={400}>
+                                <Pie
+                                    data={dataPie}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    label={renderCustomizedLabel}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                >
+                                    {data.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Legend className='overflow-hidden' verticalAlign="middle" align='right' />
+
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </section>
+                    <section className='w-full h-96'>
+                        <h2 className='mx-12 text-lg font-semibold'>Treasury over time</h2>
+                        <ResponsiveContainer className='' width="100%" height="100%">
+                            <LineChart
+                                width={500}
+                                height={300}
+                                data={dataTreasury}
+
+                                margin={{
+                                    top: 20,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Line type="monotone" name='floor (approx)' dataKey="floor" stroke="#8884d8" />
+
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </section>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     )
 }
 
