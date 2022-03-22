@@ -84,12 +84,12 @@ const Metrics = () => {
                 <h2 className='text-lg font-semibold'>Top holders</h2>
                 <ResponsiveContainer >
                     <PieChart className=''>
-                        <Pie legendType='square' data={pieData} dataKey="value" cx="6.5%" innerRadius={100} outerRadius={140}  >
+                        <Pie legendType='square' data={pieData} dataKey="value" cx="16.5%" innerRadius={100} outerRadius={140}  >
                             {pieData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={`#${entry.name.substring(36)}`} />
                             ))}
                         </Pie>
-                        <Legend className='overflow-hidden' verticalAlign="top" align='right' height={12} />
+                        <Legend className='overflow-hidden' verticalAlign="top" align='right' height={12} width={800} />
                     </PieChart>
 
                 </ResponsiveContainer>
