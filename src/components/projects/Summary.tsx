@@ -1,6 +1,6 @@
 import React from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
-
+import Card from './Card'
 
 const data = [
     {
@@ -180,119 +180,94 @@ const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, perc
 const Summary = () => {
     return (
         <div>
-            <section>
-                <p>Jenkins the Valet, which started out as Ape #1798 in the Bored Ape Yacht Club (BAYC) Collection is the face of a new kind of media company, where IP is managed via NFTs. Tally Labs LLC turned Ape #1798 into a character called Jenkins the Valet, and plans to create a connected set Intellectual Property assets which people can interact with via NFTs.</p>
-                <br />
-                <p>The right to vote on the plot of their first product - a book - has been sold via a set of NFTs called the Writers Room. The 6,942 NFTs in this collection have sold 10,328 times with a total volume of 4,347.37 ETH. Revenue is generated mainly from a 5% royalty on secondary sales. This will be supplemented in the future with new media sales and licensing. Finally a partnership with CAA lets Tally Labs access a wide array of artists who can power the creation of a diversified content universe.</p>
 
-                <p className='my-4'>
-                    <span>Company History & Key People</span>
+            <section className='grid grid-cols-3 gap-2'>
+                <Card className='col-span-2 bg-gray-50' title={'Company History & Key People'}>
+                    <p>Jenkins the Valet, which started out as Ape #1798 in the Bored Ape Yacht Club (BAYC) Collection is the face of a new kind of media company, where IP is managed via NFTs. Tally Labs LLC turned Ape #1798 into a character called Jenkins the Valet, and plans to create a connected set Intellectual Property assets which people can interact with via NFTs.</p>
+                    <br />
+                    <p>The right to vote on the plot of their first product - a book - has been sold via a set of NFTs called the Writers Room. The 6,942 NFTs in this collection have sold 10,328 times with a total volume of 4,347.37 ETH. Revenue is generated mainly from a 5% royalty on secondary sales. This will be supplemented in the future with new media sales and licensing. Finally a partnership with CAA lets Tally Labs access a wide array of artists who can power the creation of a diversified content universe.</p>
                     <ul className='list-disc'>
                         <li className='ml-12 list-item'>The core team is pseudonymous:</li>
                         <li className='ml-12 list-item'>Jenkins - Lead product manager at a public tech company.</li>
                         <li className='ml-12 list-item'>See Ape Follow Ape (SAFA) - works on marketing and branding</li>
                         <li className='ml-12 list-item'>Foobar - Solidity developer with previous experience including Gamestop’s upcoming NFT, Revest Finance, and HD Punks</li>
                     </ul>
-                </p>
+                </Card>
+                <Card className='w-full h-full bg-gray-50' title={'Unique holders'}>
+                    <ResponsiveContainer>
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={data}
 
+                            margin={{
+                                top: 20,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="holders" stroke="#8884d8" />
+                            <Line type="monotone" dataKey="new" stroke="#82ca9d" strokeDasharray="3 4 5 2" />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </Card>
+                <Card className='h-96' title={'Floor over time'}>
+                    <ResponsiveContainer className='bg-gray-50' width="100%" height="100%">
+                        <LineChart
+                            data={dataF}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" name='floor (approx)' dataKey="floor" stroke="#8884d8" />
+
+                        </LineChart>
+                    </ResponsiveContainer>
+                </Card>
+                <Card title={'Type of holders'} className='bg-gray-50'>
+                    <ResponsiveContainer>
+                        <PieChart >
+                            <Pie
+                                data={dataPie}
+
+                                labelLine={false}
+                                label={renderCustomizedLabel}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                dataKey="value"
+                            >
+                                {data.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                ))}
+                            </Pie>
+                            <Legend className='overflow-hidden' verticalAlign="top" align='right' />
+
+                        </PieChart>
+                    </ResponsiveContainer>
+                </Card>
+                <Card title={'Treasury over time'} className='bg-gray-50'>
+                    <ResponsiveContainer >
+                        <LineChart
+
+                            data={dataTreasury}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" name='floor (approx)' dataKey="holders" stroke="#8884d8" />
+
+                        </LineChart>
+                    </ResponsiveContainer>
+                </Card>
             </section>
-            <section className='mt-4'>
-                <div className="grid grid-cols-2 h-full gap-4">
-
-                    <section className='w-full h-96'>
-                        <h2 className='mx-12 text-lg font-semibold'>Unique holders</h2>
-                        <ResponsiveContainer className='' width="100%" height="100%">
-                            <LineChart
-                                width={500}
-                                height={300}
-                                data={data}
-
-                                margin={{
-                                    top: 20,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="holders" stroke="#8884d8" />
-                                <Line type="monotone" dataKey="new" stroke="#82ca9d" strokeDasharray="3 4 5 2" />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </section>
-                    <section className='w-full h-96'>
-                        <h2 className='mx-12 text-lg font-semibold'>Floor over time</h2>
-                        <ResponsiveContainer className='' width="100%" height="100%">
-                            <LineChart
-                                width={500}
-                                height={300}
-                                data={dataF}
-
-                                margin={{
-                                    top: 20,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" name='floor (approx)' dataKey="floor" stroke="#8884d8" />
-
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </section>
-                    <section className='w-full h-96'>
-                        <h2 className='mx-12 text-lg font-semibold'>Type of holders</h2>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart width={400} height={400}>
-                                <Pie
-                                    data={dataPie}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={renderCustomizedLabel}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Legend className='overflow-hidden' verticalAlign="middle" align='right' />
-
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </section>
-                    <section className='w-full h-96'>
-                        <h2 className='mx-12 text-lg font-semibold'>Treasury over time</h2>
-                        <ResponsiveContainer className='' width="100%" height="100%">
-                            <LineChart
-                                width={500}
-                                height={300}
-                                data={dataTreasury}
-
-                                margin={{
-                                    top: 20,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" name='floor (approx)' dataKey="floor" stroke="#8884d8" />
-
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </section>
-                </div>
-            </section >
         </div >
     )
 }
