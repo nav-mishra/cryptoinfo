@@ -16,23 +16,23 @@ export const getStaticProps = async () => {
         SubCategory: 'NFT'
     }]
 
-    var resp = await fetch('https://api.airtable.com/v0/appX6rMkgP5MWlbdy/Imported%20table', {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
-        }
-    })
+    // var resp = await fetch('https://api.airtable.com/v0/appX6rMkgP5MWlbdy/Imported%20table', {
+    //     method: 'GET',
+    //     headers: {
+    //         'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
+    //     }
+    // })
 
-    var dat: any = await resp.json()
-    dat.records.map((element: any) => {
-        data.push({
-            Id: element.id,
-            Category: element.fields['Category'] ?? '',
-            Link: element.fields['Link'] ?? '',
-            Name: element.fields['Name'] ?? '',
-            SubCategory: element.fields['SubCategory'] ?? '',
-        })
-    })
+    // var dat: any = await resp.json()
+    // dat.records.map((element: any) => {
+    //     data.push({
+    //         Id: element.id,
+    //         Category: element.fields['Category'] ?? '',
+    //         Link: element.fields['Link'] ?? '',
+    //         Name: element.fields['Name'] ?? '',
+    //         SubCategory: element.fields['SubCategory'] ?? '',
+    //     })
+    // })
 
     return {
         props: {
