@@ -19,7 +19,7 @@ export const getStaticProps = async () => {
   const feedItems: IFeedItem[] = coinBaseFeed.map(c => {
     return {
       title: c.title["$"] ?? '',
-      url: c.link["$"] ?? '',
+      url: c.link ?? '',
       category: c.category["$"] ?? '',
       source: "CoinDesk",
       date: c.pubDate ?? '',
@@ -49,14 +49,15 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
         props.projects.map((p, i) =>
           <div key={i} className='divide-y-2 border-md border-red-400'>
             <div className=" py-4 flex flex-wrap md:flex-nowrap ">
-              <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-                <span className="font-semibold title-font ">{p.source}</span>
+              <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex gap-1 flex-col">
+                <span className="font-semibold title-font ">{p.category}</span>
                 <span className="text-sm">{new Date(p.date).toLocaleDateString()}</span>
+                <span className="text-sm mt-4 ">{p.source}</span>
               </div>
               <div className="md:flex-grow">
-                <h2 className="text-2xl font-medium  title-font mb-2"><Link href={p.url}><a>{p.title}</a></Link></h2>
+                <h2 className="text-2xl hover:underline font-medium  title-font mb-2"><Link href={p.url}><a>{p.title}</a></Link></h2>
                 <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-                <a className="text-indigo-700 inline-flex items-center mt-4">Learn More
+                <a className="text-indigo-700 hover:underline inline-flex items-center mt-4" href={p.url}>Read more
                   <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14"></path>
                     <path d="M12 5l7 7-7 7"></path>
