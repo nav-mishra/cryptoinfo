@@ -1,4 +1,4 @@
-import type {AppProps} from 'next/app'
+import {AppProps} from 'next/app'
 import Head from 'next/head'
 import {useRouter} from 'next/router'
 import Footer from '../src/components/Footer'
@@ -10,7 +10,7 @@ import {GlobalStateProvider} from '../src/store/GlobalStore'
 import {LoadingStateProvider} from '../src/store/LoadingStore'
 
 
-function MyApp({Component, pageProps}: AppProps) {
+const MyApp: React.FC<AppProps> = ({Component, pageProps}) => {
   const router = useRouter()
 
   return (

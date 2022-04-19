@@ -1,12 +1,12 @@
 import {useRouter} from 'next/router'
-import {useEffect, useState} from 'react'
+import {ReactNode, useEffect, useState} from 'react'
 import {useUser} from '../hooks/useUser'
 import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
 import {data} from '../utils/data'
 import {getNavigationItem} from '../utils/helpers'
 import TopHeader from './TopHeader'
 
-const Layout: React.FC = (props) => {
+const Layout: React.FC<{children: ReactNode}> = (props) => {
   const router = useRouter()
   const globalDispatch = useGlobalDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)

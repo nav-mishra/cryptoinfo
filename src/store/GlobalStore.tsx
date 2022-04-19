@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { IAppConfig } from '../types/IAppConfig'
-import { IGlobalState } from '../types/IGlobalState'
+import React, {createContext, ReactNode, useContext, useEffect, useReducer} from 'react'
+import {IAppConfig} from '../types/IAppConfig'
+import {IGlobalState} from '../types/IGlobalState'
 
 export enum GlobalStateAction {
   SetPageTitle,
@@ -9,9 +9,9 @@ export enum GlobalStateAction {
 }
 
 export type GlobalAction =
-  | { type: GlobalStateAction.SetPageTitle; title: string }
-  | { type: GlobalStateAction.SetSearchQuery; searchQuery: string }
-  | { type: GlobalStateAction.AppConfig; config: IAppConfig }
+  | {type: GlobalStateAction.SetPageTitle; title: string}
+  | {type: GlobalStateAction.SetSearchQuery; searchQuery: string}
+  | {type: GlobalStateAction.AppConfig; config: IAppConfig}
 
 const initialState: IGlobalState = {
   pageTitle: '',
@@ -25,28 +25,28 @@ const initialState: IGlobalState = {
 
 const globalStateContext = createContext<IGlobalState>(initialState)
 const globalDispatchContext = createContext<React.Dispatch<GlobalAction>>(
-  () => {}
+  () => { }
 )
 
 const reducer = (state: IGlobalState, action: GlobalAction): IGlobalState => {
   switch (action.type) {
     case GlobalStateAction.SetPageTitle:
-      return { ...state, pageTitle: action.title }
+      return {...state, pageTitle: action.title}
     case GlobalStateAction.SetSearchQuery:
-      return { ...state, searchQuery: action.searchQuery }
+      return {...state, searchQuery: action.searchQuery}
     case GlobalStateAction.AppConfig:
-      return { ...state, appConfig: action.config }
+      return {...state, appConfig: action.config}
     default:
       return state
   }
 }
 
-const GlobalStateProvider: React.FC = ({ children }) => {
+const GlobalStateProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [state, dispatch] = useReducer<
     React.Reducer<IGlobalState, GlobalAction>
   >(reducer, initialState)
 
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   return (
     <globalStateContext.Provider value={state}>
@@ -60,4 +60,5 @@ const GlobalStateProvider: React.FC = ({ children }) => {
 const useGlobalState = () => useContext(globalStateContext)
 const useGlobalDispatch = () => useContext(globalDispatchContext)
 
-export { GlobalStateProvider, useGlobalState, useGlobalDispatch }
+export {GlobalStateProvider, useGlobalState, useGlobalDispatch}
+
