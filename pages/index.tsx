@@ -3,14 +3,7 @@ import {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 import LoadingIndicator from '../src/components/LoadingIndicator'
-interface IFeedItem {
-  title: string,
-  url: string
-  category: string
-  source: string
-  date: string
-  description: string
-}
+import {IFeedItem} from '../src/types/IFeedItem'
 
 export const getStaticProps = async () => {
   //const data = await getProjects()
@@ -34,7 +27,6 @@ export const getStaticProps = async () => {
     },
   }
 }
-
 
 const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const [projects, setProjects] = useState([...props.projects])

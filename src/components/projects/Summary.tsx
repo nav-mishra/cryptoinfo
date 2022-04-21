@@ -1,5 +1,7 @@
-import React from 'react'
+import Link from 'next/link'
+import React, {useEffect, useState} from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
+import {IFeedItem} from '../../types/IFeedItem'
 import Card from './Card'
 
 const data = [
@@ -178,9 +180,33 @@ const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, perc
 }
 
 const Summary = () => {
+    const [projects, setProjects] = useState<IFeedItem[]>([])
+    const getProjects = async () => {
+        const coinBaseFeedResponse = await fetch('https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=json')
+        const coinBaseFeedResult: any = await coinBaseFeedResponse.json()
+        const coinBaseFeed: any[] = coinBaseFeedResult?.rss?.channel?.item ?? []
+
+        const feedItems: IFeedItem[] = coinBaseFeed.map(c => {
+            return {
+                title: c.title["$"] ?? '',
+                url: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
+                category: c.category["$"] ?? '',
+                source: "CoinDesk",
+                date: c.pubDate ?? '',
+                description: c.description["$"] ?? '',
+            }
+        })
+
+        setProjects(feedItems)
+    }
+
+    useEffect(() => {
+        getProjects()
+    }, [])
+
+
     return (
         <div>
-
             <section className='grid grid-cols-3 gap-2'>
                 <Card className='col-span-2 bg-gray-50' title={'Company History & Key People'}>
                     <p>Jenkins the Valet, which started out as Ape #1798 in the Bored Ape Yacht Club (BAYC) Collection is the face of a new kind of media company, where IP is managed via NFTs. Tally Labs LLC turned Ape #1798 into a character called Jenkins the Valet, and plans to create a connected set Intellectual Property assets which people can interact with via NFTs.</p>
@@ -214,6 +240,23 @@ const Summary = () => {
                             <Line type="monotone" dataKey="new" stroke="#82ca9d" strokeDasharray="3 4 5 2" />
                         </LineChart>
                     </ResponsiveContainer>
+                </Card>
+                <Card className='col-span-1 bg-gray-50 overflow-y-scroll' title={'News'}>
+                    {
+                        projects && <div className='flex flex-col gap-2 divide-y'>
+                            {projects.slice(0, 5).map((project, index) =>
+                                <Link key={index} href={project.url} passHref={true}>
+                                    <a target={'_blank'} className='flex flex-col p-2 rounded-md hover:bg-gray-200'>
+                                        <a key={index}>{project.title}</a>
+                                        <div className='flex justify-between text-sm font-thin'>
+                                            <span>{new Date(project.date).toDateString()}</span>
+                                            <span>{new Date(project.date).toDateString()}</span>
+                                        </div>
+                                    </a>
+                                </Link>
+                            )}
+                        </div>
+                    }
                 </Card>
                 <Card className='h-96' title={'Floor over time'}>
                     <ResponsiveContainer className='bg-gray-50' width="100%" height="100%">
