@@ -23,7 +23,7 @@ export const getStaticProps = async () => {
   })
   return {
     props: {
-      projects: feedItems,
+      projects: feedItems.sort((a, b) => Date.parse(a.date) > Date.parse(b.date) ? 1 : -1),
     },
   }
 }
@@ -32,7 +32,7 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
   const [projects, setProjects] = useState([...props.projects])
   const [sort, setSort] = useState({dateAscending: false, sourceAscending: true})
   const [searchQuery, setSearchQuery] = useState('')
-
+  console.log(projects)
   useEffect(() => {
     let filtered: IFeedItem[] = [...projects]
     if (searchQuery)
@@ -87,12 +87,12 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
                 Date</th>
               <th className="px-4 py-3 max-w-fit w-2/6 title-font tracking-wider font-medium ">Headline</th>
               <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th>
+              <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
               <th onClick={() => {
                 setSort({...sort, sourceAscending: !sort.sourceAscending})
               }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
                 {sort.sourceAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
                 Source</th>
-              <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
             </tr>
           </thead>
           <tbody>

@@ -179,8 +179,21 @@ const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, perc
     )
 }
 
+interface IProjectSummary {
+    name: string
+    category: string
+    contractAddress: string
+    legalEntity: string
+    description: string
+    website: string
+    twitter: string
+    etherScan: string
+    discord: string
+}
+
 const Summary = () => {
     const [projects, setProjects] = useState<IFeedItem[]>([])
+    const [summary, setSumnmary] = useState<IProjectSummary>()
     const getProjects = async () => {
         const coinBaseFeedResponse = await fetch('https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=json')
         const coinBaseFeedResult: any = await coinBaseFeedResponse.json()
@@ -200,24 +213,41 @@ const Summary = () => {
         setProjects(feedItems)
     }
 
+    const getSummary = async () => {
+        var resp = await fetch('/api/projectsummary?name=jenkins', {
+            method: 'GET'
+        })
+
+        var dat: IProjectSummary = await resp.json()
+        setSumnmary(dat)
+    }
+
     useEffect(() => {
         getProjects()
+        getSummary()
     }, [])
 
 
     return (
         <div>
             <section className='grid grid-cols-3 gap-2'>
-                <Card className='col-span-2 bg-gray-50' title={'Company History & Key People'}>
-                    <p>Jenkins the Valet, which started out as Ape #1798 in the Bored Ape Yacht Club (BAYC) Collection is the face of a new kind of media company, where IP is managed via NFTs. Tally Labs LLC turned Ape #1798 into a character called Jenkins the Valet, and plans to create a connected set Intellectual Property assets which people can interact with via NFTs.</p>
-                    <br />
-                    <p>The right to vote on the plot of their first product - a book - has been sold via a set of NFTs called the Writers Room. The 6,942 NFTs in this collection have sold 10,328 times with a total volume of 4,347.37 ETH. Revenue is generated mainly from a 5% royalty on secondary sales. This will be supplemented in the future with new media sales and licensing. Finally a partnership with CAA lets Tally Labs access a wide array of artists who can power the creation of a diversified content universe.</p>
-                    <ul className='list-disc'>
-                        <li className='ml-12 list-item'>The core team is pseudonymous:</li>
-                        <li className='ml-12 list-item'>Jenkins - Lead product manager at a public tech company.</li>
-                        <li className='ml-12 list-item'>See Ape Follow Ape (SAFA) - works on marketing and branding</li>
-                        <li className='ml-12 list-item'>Foobar - Solidity developer with previous experience including Gamestop’s upcoming NFT, Revest Finance, and HD Punks</li>
-                    </ul>
+                <Card className='flex flex-col col-span-2 bg-gray-50 ' title={'Company History & Key People'}>
+                    <div className='flex flex-col justify-center'>
+                        <p>{summary?.description}</p>
+                        <br />
+                        <p>The right to vote on the plot of their first product - a book - has been sold via a set of NFTs called the Writers Room. The 6,942 NFTs in this collection have sold 10,328 times with a total volume of 4,347.37 ETH. Revenue is generated mainly from a 5% royalty on secondary sales. This will be supplemented in the future with new media sales and licensing. Finally a partnership with CAA lets Tally Labs access a wide array of artists who can power the creation of a diversified content universe.</p>
+                        <span className='mt-4'>The core team is pseudonymous:</span>
+                        <ul className='list-disc flex-grow'>
+                            <li className='ml-12 list-item'>Jenkins - Lead product manager at a public tech company.</li>
+                            <li className='ml-12 list-item'>See Ape Follow Ape (SAFA) - works on marketing and branding</li>
+                            <li className='ml-12 list-item'>Foobar - Solidity developer with previous experience including Gamestop’s upcoming NFT, Revest Finance, and HD Punks</li>
+                        </ul>
+                        <nav className='flex  justify-between items-end mt-8'>
+                            <a className='text-blue-600 hover:underline' target='_blank' href={summary?.website} rel="noreferrer">Website</a>
+                            <a className='text-blue-600 hover:underline' target='_blank' href={summary?.discord} rel="noreferrer">Discord</a>
+                            <a className='text-blue-600 hover:underline' target='_blank' href={summary?.twitter} rel="noreferrer">Twitter</a>
+                        </nav>
+                    </div>
                 </Card>
                 <Card className='w-full h-full bg-gray-50' title={'Unique holders'}>
                     <ResponsiveContainer>
