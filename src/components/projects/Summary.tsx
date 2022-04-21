@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
 import {IFeedItem} from '../../types/IFeedItem'
+import LoadingIndicator from '../LoadingIndicator'
 import Card from './Card'
 
 const data = [
@@ -230,9 +231,10 @@ const Summary = () => {
 
     return (
         <div>
+            <LoadingIndicator open={!summary?.description} />
             <section className='grid grid-cols-3 gap-2'>
                 <Card className='flex flex-col col-span-2 bg-gray-50 ' title={'Company History & Key People'}>
-                    <div className='flex flex-col justify-center'>
+                    {summary?.description && <div className='flex flex-col justify-center'>
                         <p>{summary?.description}</p>
                         <br />
                         <p>The right to vote on the plot of their first product - a book - has been sold via a set of NFTs called the Writers Room. The 6,942 NFTs in this collection have sold 10,328 times with a total volume of 4,347.37 ETH. Revenue is generated mainly from a 5% royalty on secondary sales. This will be supplemented in the future with new media sales and licensing. Finally a partnership with CAA lets Tally Labs access a wide array of artists who can power the creation of a diversified content universe.</p>
@@ -247,7 +249,7 @@ const Summary = () => {
                             <a className='text-blue-600 hover:underline' target='_blank' href={summary?.discord} rel="noreferrer">Discord</a>
                             <a className='text-blue-600 hover:underline' target='_blank' href={summary?.twitter} rel="noreferrer">Twitter</a>
                         </nav>
-                    </div>
+                    </div>}
                 </Card>
                 <Card className='w-full h-full bg-gray-50' title={'Unique holders'}>
                     <ResponsiveContainer>
