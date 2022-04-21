@@ -1,6 +1,8 @@
+import {SortAscendingIcon, SortDescendingIcon} from '@heroicons/react/outline'
 import {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import LoadingIndicator from '../src/components/LoadingIndicator'
 interface IFeedItem {
   title: string,
   url: string
@@ -19,14 +21,13 @@ export const getStaticProps = async () => {
   const feedItems: IFeedItem[] = coinBaseFeed.map(c => {
     return {
       title: c.title["$"] ?? '',
-      url: c.link ?? '',
+      url: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
       category: c.category["$"] ?? '',
       source: "CoinDesk",
       date: c.pubDate ?? '',
       description: c.description["$"] ?? '',
     }
   })
-
   return {
     props: {
       projects: feedItems,
@@ -36,38 +37,92 @@ export const getStaticProps = async () => {
 
 
 const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+  const [projects, setProjects] = useState([...props.projects])
+  const [sort, setSort] = useState({dateAscending: false, sourceAscending: true})
+  const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    let filtered: IFeedItem[] = [...projects]
+    if (searchQuery)
+      filtered = [...props.projects.filter(x =>
+        x.title.toLowerCase().match(searchQuery.toLowerCase())
+        || x.category.toLowerCase().match(searchQuery.toLowerCase())
+        || x.source.toLowerCase().match(searchQuery.toLowerCase())
+      )]
+
+    filtered = filtered.sort((a, b) => {
+      return sort.dateAscending ?
+        Date.parse(a.date) > Date.parse(b.date) ? 1 : -1 : Date.parse(a.date) > Date.parse(b.date) ? -1 : 1
+    })
+
+
+    filtered = filtered.sort((a, b) => {
+      return sort.sourceAscending ?
+        Date.parse(a.source) > Date.parse(b.source) ? 1 : -1 : Date.parse(a.source) > Date.parse(b.source) ? - 1 : 1
+    })
+
+    console.log(filtered)
+
+    setProjects(filtered)
+
+  }, [searchQuery, sort])
+
+
   return (
-    <section className="">
-      <section className="">
-        <div className="flex flex-col ">
-          <h2 className="font-medium title-font  text-lg">Your feed</h2>
-          <div className="w-24 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-        </div>
+    <div className='w-full'>
+      <LoadingIndicator open={!projects} />
+      <section className='flex gap-4 justify-between items-baseline mb-4 '>
+        <h3 className='font-semibold text-lg'>Feed</h3>
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder='search'
+          id="searchQuery"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          autoComplete="search"
+          className="focus:ring-gray-500 focus:border-gray-500 block shadow-sm sm:text-sm border-gray-600 bg-transparent rounded-md"
+        />
       </section>
 
-      {
-        props.projects.map((p, i) =>
-          <div key={i} className='divide-y-2 border-md border-red-400'>
-            <div className=" py-4 flex flex-wrap md:flex-nowrap ">
-              <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex gap-1 flex-col">
-                <span className="font-semibold title-font ">{p.category}</span>
-                <span className="text-sm">{new Date(p.date).toLocaleDateString()}</span>
-                <span className="text-sm mt-4 ">{p.source}</span>
-              </div>
-              <div className="md:flex-grow">
-                <h2 className="text-2xl hover:underline font-medium  title-font mb-2"><Link href={p.url}><a>{p.title}</a></Link></h2>
-                <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-                <a className="text-indigo-700 hover:underline inline-flex items-center mt-4" href={p.url}>Read more
-                  <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>)
-      }
-    </section >
+      <div className='body-font w-full mx-auto overflow-auto'>
+        <table className="table-auto w-full text-left whitespace-no-wrap">
+          <thead className='dark:bg-gray-900 bg-gray-300'>
+            <tr className='dark:bg-black bg-opacity-40 '>
+              <th onClick={() => {
+                setSort({...sort, dateAscending: !sort.dateAscending})
+              }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
+                {sort.dateAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
+                Date</th>
+              <th className="px-4 py-3 max-w-fit w-2/6 title-font tracking-wider font-medium ">Headline</th>
+              <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th>
+              <th onClick={() => {
+                setSort({...sort, sourceAscending: !sort.sourceAscending})
+              }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
+                {sort.sourceAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
+                Source</th>
+              <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projects.map((x, index) =>
+              <tr className='border-b max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-800' key={index} >
+                <td className="px-4 py-3">{new Date(x.date).toLocaleDateString()}</td>
+                <td className="px-4 py-3">
+                  <Link key={index} href={x.url} passHref={true}>
+                    <a target='_blank'>{x.title}</a>
+                  </Link>
+                </td>
+                <td className="px-4 py-3">
+                  <p>{x.description}</p>
+                </td>
+                <td className="px-4 py-3">{x.category}</td>
+                <td className="px-4 py-3">{x.source}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div >
   )
 }
 
