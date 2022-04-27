@@ -16,7 +16,6 @@ const Timeline = () => {
         })
 
         var dat: ProjectTimeline[] = await resp.json()
-        console.log(dat)
         setTimeline(dat.sort((a, b) => Date.parse(a.date) > Date.parse(b.date) ? -1 : 1))
     }
 

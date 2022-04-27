@@ -1,8 +1,10 @@
 export interface IFeedItem {
   title: string
-  url: string
+  link: string
   category: string
-  source: string
+  source?: string
   date: string
-  description: string
+  creator: string
+  content: string
+  contentSnippet: string
 }
