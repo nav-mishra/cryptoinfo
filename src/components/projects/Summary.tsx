@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
+import {getFeed} from '../../helpers/feedhelper'
 import {IFeedItem} from '../../types/IFeedItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Card from './Card'
@@ -196,18 +197,20 @@ const Summary = () => {
     const [projects, setProjects] = useState<IFeedItem[]>([])
     const [summary, setSumnmary] = useState<IProjectSummary>()
     const getProjects = async () => {
-        const coinBaseFeedResponse = await fetch('https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=json')
-        const coinBaseFeedResult: any = await coinBaseFeedResponse.json()
-        const coinBaseFeed: any[] = coinBaseFeedResult?.rss?.channel?.item ?? []
+        const coinBaseFeed = getFeed('https://www.coindesk.com/arc/outboundfeeds/rss')
+        const decryptFeed = getFeed('https://decrypt.co/feed')
+        const coindeskFeed = getFeed('https://feeds.feedburner.com/coindesk')
 
-        const feedItems: IFeedItem[] = coinBaseFeed.map(c => {
+        let feedResponse = await Promise.all([coinBaseFeed, decryptFeed, coindeskFeed])
+        const feedItems: IFeedItem[] = [...feedResponse[0].items, ...feedResponse[1].items, ...feedResponse[2].items].map((c: any) => {
             return {
-                title: c.title["$"] ?? '',
-                url: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
-                category: c.category["$"] ?? '',
-                source: "CoinDesk",
+                creator: c.creator ?? '',
+                content: c.content ?? '',
+                title: c.title ?? '',
+                link: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
+                category: (c.categories && c.categories.length > 0 && c.categories[0]["_"]) ?? '',
                 date: c.pubDate ?? '',
-                description: c.description["$"] ?? '',
+                contentSnippet: c.contentSnippet ?? '',
             }
         })
 
@@ -277,7 +280,7 @@ const Summary = () => {
                     {
                         projects && <div className='flex flex-col gap-2 divide-y'>
                             {projects.slice(0, 5).map((project, index) =>
-                                <Link key={index} href={project.url} passHref={true}>
+                                <Link key={index} href={project.link} passHref={true}>
                                     <a target={'_blank'} className='flex flex-col p-2 rounded-md hover:bg-gray-200'>
                                         <a key={index}>{project.title}</a>
                                         <div className='flex justify-between text-sm font-thin'>

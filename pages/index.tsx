@@ -2,15 +2,9 @@ import {SortAscendingIcon, SortDescendingIcon} from '@heroicons/react/outline'
 import {InferGetStaticPropsType, NextPage} from 'next'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
-import Parser from 'rss-parser'
 import LoadingIndicator from '../src/components/LoadingIndicator'
+import {getFeed} from '../src/helpers/feedhelper'
 import {IFeedItem} from '../src/types/IFeedItem'
-
-export async function getFeed(feedUrl: string) {
-  let parser = new Parser()
-  let feed = await parser.parseURL(feedUrl)
-  return feed
-}
 
 export const getStaticProps = async () => {
   //const data = await getProjects()
@@ -19,13 +13,13 @@ export const getStaticProps = async () => {
   const coindeskFeed = getFeed('https://feeds.feedburner.com/coindesk')
 
   let feedResponse = await Promise.all([coinBaseFeed, decryptFeed, coindeskFeed])
-  const feedItems: IFeedItem[] = feedResponse[0].items.map((c: any) => {
+  const feedItems: IFeedItem[] = [...feedResponse[0].items, ...feedResponse[1].items, ...feedResponse[2].items].map((c: any) => {
     return {
       creator: c.creator ?? '',
       content: c.content ?? '',
       title: c.title ?? '',
       link: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
-      category: c.categories[0]["_"] ?? '',
+      category: (c.categories && c.categories.length > 0 && c.categories[0]["_"]) ?? '',
       date: c.pubDate ?? '',
       contentSnippet: c.contentSnippet ?? '',
     }
