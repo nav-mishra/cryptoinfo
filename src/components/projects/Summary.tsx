@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
-import {getFeed} from '../../helpers/feedhelper'
 import {IFeedItem} from '../../types/IFeedItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Card from './Card'
@@ -193,29 +192,9 @@ interface IProjectSummary {
     discord: string
 }
 
-const Summary = () => {
-    const [projects, setProjects] = useState<IFeedItem[]>([])
+const Summary: React.FC<{feeds: IFeedItem[]}> = (props) => {
+
     const [summary, setSumnmary] = useState<IProjectSummary>()
-    const getProjects = async () => {
-        const coinBaseFeed = getFeed('https://www.coindesk.com/arc/outboundfeeds/rss')
-        const decryptFeed = getFeed('https://decrypt.co/feed')
-        const coindeskFeed = getFeed('https://feeds.feedburner.com/coindesk')
-
-        let feedResponse = await Promise.all([coinBaseFeed, decryptFeed, coindeskFeed])
-        const feedItems: IFeedItem[] = [...feedResponse[0].items, ...feedResponse[1].items, ...feedResponse[2].items].map((c: any) => {
-            return {
-                creator: c.creator ?? '',
-                content: c.content ?? '',
-                title: c.title ?? '',
-                link: Array.isArray(c.link) ? c.link[0] ?? '' : c.link ?? '',
-                category: (c.categories && c.categories.length > 0 && c.categories[0]["_"]) ?? '',
-                date: c.pubDate ?? '',
-                contentSnippet: c.contentSnippet ?? '',
-            }
-        })
-
-        setProjects(feedItems)
-    }
 
     const getSummary = async () => {
         var resp = await fetch('/api/projectsummary?name=jenkins', {
@@ -227,7 +206,6 @@ const Summary = () => {
     }
 
     useEffect(() => {
-        getProjects()
         getSummary()
     }, [])
 
@@ -277,20 +255,20 @@ const Summary = () => {
                     </ResponsiveContainer>
                 </Card>
                 <Card className='col-span-1 bg-gray-50 overflow-y-scroll' title={'News'}>
-                    {
-                        projects && <div className='flex flex-col gap-2 divide-y'>
-                            {projects.slice(0, 5).map((project, index) =>
-                                <Link key={index} href={project.link} passHref={true}>
+                    {props.feeds?.length > 0 ?
+                        <div className='flex flex-col gap-2 divide-y'>
+                            {props.feeds.slice(0, 5).map((feed, index) =>
+                                <Link key={index} href={feed.link} passHref={true}>
                                     <a target={'_blank'} className='flex flex-col p-2 rounded-md hover:bg-gray-200'>
-                                        <a key={index}>{project.title}</a>
+                                        <span key={index}>{feed.title}</span>
                                         <div className='flex justify-between text-sm font-thin'>
-                                            <span>{new Date(project.date).toDateString()}</span>
-                                            <span>{new Date(project.date).toDateString()}</span>
+                                            <span>{new Date(feed.date).toDateString()}</span>
+                                            <span>{new Date(feed.date).toDateString()}</span>
                                         </div>
                                     </a>
                                 </Link>
                             )}
-                        </div>
+                        </div> : <div>No feeds available at this time.</div>
                     }
                 </Card>
                 <Card className='h-96' title={'Floor over time'}>

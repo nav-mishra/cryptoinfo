@@ -9,12 +9,13 @@ import {IProject} from '../../src/types/IProject'
 
 export const getStaticProps = async () => {
     //const data = await getProjects()
-    const data: IProject[] = [{
+    const data: IProject = {
+        Id: 'Jenkins the Valet',
         Category: 'Wallet',
         Link: 'https://www.jenkinsthevalet.com/',
         Name: 'Jenkins the Valet',
         SubCategory: 'NFT'
-    }]
+    }
 
     var resp = await fetch('https://api.airtable.com/v0/appX6rMkgP5MWlbdy/Imported%20table', {
         method: 'GET',
@@ -24,19 +25,20 @@ export const getStaticProps = async () => {
     })
 
     var dat: any = await resp.json()
-    dat.records.map((element: any) => {
-        data.push({
-            Id: element.id,
+    let dataNew: IProject[] = dat.records.map((element: any) => {
+        return {
+            Id: element.fields['Name'],
             Category: element.fields['Category'] ?? '',
             Link: element.fields['Link'] ?? '',
             Name: element.fields['Name'] ?? '',
             SubCategory: element.fields['SubCategory'] ?? '',
-        })
+        }
     })
+
 
     return {
         props: {
-            projects: data,
+            projects: [data, ...dataNew],
         },
     }
 }
@@ -95,7 +97,7 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
                 </thead>
                 <tbody>
                     {projects.map((x, index) =>
-                        <Link key={index} href={`/projects/${x.Name}`} passHref={true}>
+                        <Link key={index} href={`/projects/${x.Id}`} passHref={true}>
                             <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-800' key={index} >
 
 

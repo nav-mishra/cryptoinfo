@@ -57,10 +57,19 @@ const userNavigation = [
   },
 ]
 
+const feeds = [
+  { url: 'https://blockworks.co/feed/', source: 'blockworks' },
+  // { url: 'https://cointelegraph.com/feed', source: 'cointelegraph' },
+  { url: 'https://decrypt.co/feed', source: 'decrypt' },
+  { url: 'https://protos.com/feed', source: 'protos' },
+  { url: 'https://www.coindesk.com/arc/outboundfeeds/rss', source: 'coindesk' },
+]
+
 export const data = {
   navigation,
   pathList,
   userNavigation,
+  feeds,
 }
 
 export const pieData = [
