@@ -62,9 +62,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
     const router = useRouter()
     const {id} = router.query
-    console.log('comp', props.feeds.length)
-    console.log('comp', props.feeds[0])
-
     const tabs = ["Summary", "Profile", "Updates", "Metrics", "Finances"]
 
     return (
