@@ -162,16 +162,6 @@ const SignIn = () => {
                   </a>
                 </Link>
               </span>
-
-              <div className='flex items-center my-6'>
-                <div
-                  className='border-t border-gray-600 flex-grow mr-3'
-                  aria-hidden='true'></div>
-                <div className='text-gray-700'>Or</div>
-                <div
-                  className='border-t border-gray-600 flex-grow ml-3'
-                  aria-hidden='true'></div>
-              </div>
             </div >
           </div>
         </section >

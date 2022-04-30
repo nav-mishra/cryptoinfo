@@ -72,7 +72,7 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
                 {sort.dateAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
                 Date</th>
               <th className="px-4 py-3 max-w-fit w-2/6 title-font tracking-wider font-medium ">Headline</th>
-              <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th>
+              {/* <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th> */}
               <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
               <th onClick={() => {
                 setSort({...sort, sourceAscending: !sort.sourceAscending})
@@ -90,13 +90,13 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
                     <a target='_blank'>{x.title}</a>
                   </Link>
                 </td>
-                <td className="px-4 py-3">
+                {/* <td className="px-4 py-3">
                   <p className='text-ellipsis'>{x.contentSnippet.substring(0, 100)} {x.contentSnippet.length > 100 ?
                     <Link key={index} href={x.link} passHref={true}>
                       <a target='_blank' className='font-light text-sm italic'>...read more</a>
                     </Link>
                     : ''}</p>
-                </td>
+                </td> */}
                 <td className="px-4 py-3">{x.category}</td>
                 <td className="px-4 py-3">{x.source}</td>
               </tr>

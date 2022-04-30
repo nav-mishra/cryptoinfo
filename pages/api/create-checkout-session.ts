@@ -1,5 +1,8 @@
+import {
+  getUser,
+  withAuthRequired,
+} from '@supabase/supabase-auth-helpers/nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getUser } from '../../src/helpers/supabase-admin'
 import { getURL } from '../../src/utils/helpers'
 import { stripe } from '../../src/utils/stripe'
 import { createOrRetrieveCustomer } from '../../src/utils/supabase-admin'
@@ -9,11 +12,10 @@ const createCheckoutSession = async (
   res: NextApiResponse
 ) => {
   if (req.method === 'POST') {
-    const token = req.headers.token as string
     const { price, quantity = 1, metadata = {} } = req.body
 
     try {
-      const user = await getUser(token)
+      const { user } = await getUser({ req, res })
 
       const customer = await createOrRetrieveCustomer({
         uuid: user?.id || '',
@@ -51,4 +53,4 @@ const createCheckoutSession = async (
   }
 }
 
-export default createCheckoutSession
+export default withAuthRequired(createCheckoutSession)
