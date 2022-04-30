@@ -14,8 +14,8 @@ const News: React.FC<{feeds: IFeedItem[]}> = (props) => {
                     <thead className='dark:bg-gray-900 bg-gray-300'>
                         <tr className='dark:bg-black bg-opacity-40 '>
                             <th className="px-4 py-3 max-w-fit flex items-center gap-2 title-font tracking-wider font-medium ">Date</th>
-                            <th className="px-4 py-3 max-w-fit w-2/6 title-font tracking-wider font-medium ">Headline</th>
-                            <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th>
+                            <th className="px-4 py-3 max-w-fit text-center w-4/6 title-font tracking-wider font-medium ">Headline</th>
+                            {/* <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th> */}
                             <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
                             <th className="px-4 py-3 max-w-fit flex items-center gap-2 title-font tracking-wider font-medium ">Source</th>
                         </tr>
@@ -29,13 +29,13 @@ const News: React.FC<{feeds: IFeedItem[]}> = (props) => {
                                         <a target='_blank'>{x.title}</a>
                                     </Link>
                                 </td>
-                                <td className="px-4 py-3">
+                                {/* <td className="px-4 py-3">
                                     <p className='text-ellipsis'>{x.contentSnippet.substring(0, 100)} {x.contentSnippet.length > 100 ?
                                         <Link key={index} href={x.link} passHref={true}>
                                             <a target='_blank' className='font-light text-sm italic'>...read more</a>
                                         </Link>
                                         : ''}</p>
-                                </td>
+                                </td> */}
                                 <td className="px-4 py-3">{x.category}</td>
                                 <td className="px-4 py-3">{x.source}</td>
                             </tr>

@@ -71,7 +71,7 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
               }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
                 {sort.dateAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
                 Date</th>
-              <th className="px-4 py-3 max-w-fit w-2/6 title-font tracking-wider font-medium ">Headline</th>
+              <th className="px-4 py-3 max-w-fit w-4/6 text-center title-font tracking-wider font-medium ">Headline</th>
               {/* <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th> */}
               <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
               <th onClick={() => {
