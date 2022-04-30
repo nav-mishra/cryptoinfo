@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import React from 'react'
 import Finances from '../../src/components/projects/Finances'
 import Metrics from '../../src/components/projects/Metrics'
+import News from '../../src/components/projects/News'
 import Profile from '../../src/components/projects/Profile'
 import Summary from '../../src/components/projects/Summary'
 import Timeline from '../../src/components/Timeline'
@@ -62,7 +63,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
     const router = useRouter()
     const {id} = router.query
-    const tabs = ["Summary", "Profile", "Updates", "Metrics", "Finances"]
+    const tabs = ["Summary", "Profile", "Updates", "Metrics", "Finances", "News"]
 
     return (
         <section>
@@ -131,6 +132,14 @@ const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>
                             )}
                         >
                             <Finances />
+                        </Tab.Panel>
+                        <Tab.Panel
+                            className={classNames(
+                                'rounded-xl p-1',
+                                ''
+                            )}
+                        >
+                            <News feeds={props.feeds} />
                         </Tab.Panel>
                     </Tab.Panels>
                 </Tab.Group>
