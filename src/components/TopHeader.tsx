@@ -42,7 +42,7 @@ const TopHeader = () => {
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <div className="mr-3">
-                    {userLoaded ? <UserDetails email={user?.email ?? 'User'} /> : <div className='text-sm font-medium'><Link href='/signin'>Sign in</Link></div>}
+                    {userLoaded && user?.email ? <UserDetails email={user?.email ?? 'User'} /> : <div className='text-sm font-medium'><Link href='/signin'>Sign in</Link></div>}
                   </div>
                 </div>
               </div>

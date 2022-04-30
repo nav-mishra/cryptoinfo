@@ -1,6 +1,6 @@
-import { useEffect, useState, createContext, useContext } from 'react'
-import { Session, User, Provider, Subscription } from '@supabase/supabase-js'
-import { IUserDetails } from '../types/IUserDetails'
+import {Provider, Session, Subscription, User} from '@supabase/supabase-js'
+import {createContext, useContext, useEffect, useState} from 'react'
+import {IUserDetails} from '../types/IUserDetails'
 import constants from '../utils/constants'
 
 type UserContextType = {
@@ -38,7 +38,7 @@ export const UserContextProvider = (props: any) => {
     const session = constants.supabase.auth.session()
     setSession(session)
     setUser(session?.user ?? null)
-    const { data: authListener } = constants.supabase.auth.onAuthStateChange(
+    const {data: authListener} = constants.supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session)
         setUser(session?.user ?? null)

@@ -73,17 +73,17 @@ const SignIn = () => {
   if (!user)
     return (
 
-      <div className='w-full text-gray-400 bg-gray-900 flex items-center justify-center'>
-        <section className="w-2/3 lg:w-1/3 body-font ">
+      <div className='  mx-auto my-auto w-full'>
+        <section className="w-2/3 lg:w-1/3 mx-auto body-font">
           <div className="px-5 py-24 mx-auto flex flex-wrap items-center">
-            <div className=" bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+            <div className="shadow-md bg-indigo-100 border rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
               {message.content && (
                 <div
                   className={`${message.type === 'error' ? 'text-pink-500' : 'text-green-500'
                     } pb-4`}>
                   {message.content}
                 </div>
-              )}<h2 className="text-white text-lg font-medium title-font mb-5">Sign In</h2>
+              )}<h2 className="text-lg font-medium title-font mb-5">Sign In</h2>
               {!userDetails.showPasswordInput && (
                 <form onSubmit={handleSignin} className='flex flex-col space-y-4'>
                   <Input
@@ -136,7 +136,7 @@ const SignIn = () => {
                   <div
                     className='border-t border-gray-600 flex-grow mr-3'
                     aria-hidden='true'></div>
-                  <div className='text-gray-400'>Or</div>
+                  <div className='text-gray-700'>Or</div>
                   <div
                     className='border-t border-gray-600 flex-grow ml-3'
                     aria-hidden='true'></div>
@@ -155,7 +155,7 @@ const SignIn = () => {
                 </div>
               </div>
               <span className='pt-4  text-sm'>
-                <span className='text-gray-200  mr-2 '>Dont have an account?</span>
+                <span className=' mr-2 '>Dont have an account?</span>
                 <Link href='/signup'>
                   <a className='text-accent-9 text-lg font-bold hover:underline cursor-pointer'>
                     Sign up.
@@ -167,7 +167,7 @@ const SignIn = () => {
                 <div
                   className='border-t border-gray-600 flex-grow mr-3'
                   aria-hidden='true'></div>
-                <div className='text-gray-400'>Or</div>
+                <div className='text-gray-700'>Or</div>
                 <div
                   className='border-t border-gray-600 flex-grow ml-3'
                   aria-hidden='true'></div>
