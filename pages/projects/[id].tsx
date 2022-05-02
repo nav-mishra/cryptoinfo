@@ -64,7 +64,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
     const router = useRouter()
     const {id} = router.query
-    const tabs = ["Summary", "Profile", "Updates", "Metrics", "Finances", "News"]
+    const tabs = ["Summary", "Profile", "Updates", "Metrics",
+    // "Finances",
+    "News"]
 
     return (
         <section>
@@ -126,14 +128,14 @@ const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>
                         >
                             <Metrics />
                         </Tab.Panel>
-                        <Tab.Panel
+                        {/* <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
                                 ''
                             )}
                         >
                             <Finances />
-                        </Tab.Panel>
+                        </Tab.Panel> */}
                         <Tab.Panel
                             className={classNames(
                                 'rounded-xl p-1',
