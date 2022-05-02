@@ -39,7 +39,16 @@ export async function getFeeds(feeds: { url: string; source: string }[]) {
     console.log('Error fetching feeds', exception)
   }
 
-  return feedItems.sort((a, b) =>
-    Date.parse(a.date) > Date.parse(b.date) ? -1 : 1
-  )
+  // Sort by date, and if date is the same, randomize the items from multiple feeds.
+  feedItems = feedItems.sort((a, b) => {
+    let aDate = Date.parse(a.date)
+    let bDate = Date.parse(b.date)
+
+    if (aDate > bDate) return -1
+    else if (aDate < bDate) return 1
+    else return 0.5 - Math.random()
+  })
+
+  console.log(feedItems.map((x) => x.date))
+  return feedItems
 }

@@ -16,12 +16,13 @@ export const getStaticProps = async () => {
     props: {
       projects: feedItems,
     },
+    revalidate: 3600,
   }
 }
 
 const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const [projects, setProjects] = useState([...props.projects])
-  const [sort, setSort] = useState({dateAscending: false, sourceAscending: true})
+  const [sort, setSort] = useState<{dateAscending: boolean | undefined, sourceAscending: boolean | undefined}>()
   const [searchQuery, setSearchQuery] = useState('')
   useEffect(() => {
     let filtered: IFeedItem[] = [...projects]
@@ -31,15 +32,30 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
         || x.category.toLowerCase().match(searchQuery.toLowerCase())
       )]
 
-    filtered = filtered.sort((a, b) => {
-      return sort.dateAscending ?
-        Date.parse(a.date) > Date.parse(b.date) ? 1 : -1 : Date.parse(a.date) > Date.parse(b.date) ? -1 : 1
-    })
+    if (sort?.dateAscending != undefined) {
+      filtered = filtered.sort((a, b) => {
+        let bDate = Date.parse(b.date)
+        let aDate = Date.parse(a.date)
 
-    filtered = filtered.sort((a, b) => {
-      return sort.sourceAscending ?
-        ((a.source ?? '') > (b.source ?? '')) ? -1 : 1 : ((a.source ?? '') > (b.source ?? '')) ? 1 : -1
-    })
+        if (aDate == bDate)
+          return 0.5 - Math.random()
+
+        if (sort.dateAscending) {
+          return (aDate > bDate) ? -1 : 1
+        }
+
+        else {
+          return (aDate > bDate) ? 1 : -1
+        }
+      })
+    }
+
+    if (sort?.sourceAscending != undefined) {
+      filtered.sort((a, b) => {
+        return sort.sourceAscending ?
+          ((a.source ?? '') > (b.source ?? '')) ? -1 : 1 : ((a.source ?? '') > (b.source ?? '')) ? 1 : -1
+      })
+    }
 
     setProjects(filtered)
 
@@ -67,17 +83,23 @@ const HomePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (prop
           <thead className='dark:bg-gray-900 bg-gray-300'>
             <tr className='dark:bg-black bg-opacity-40 '>
               <th onClick={() => {
-                setSort({...sort, dateAscending: !sort.dateAscending})
+                if (sort)
+                  setSort({dateAscending: !sort.dateAscending, sourceAscending: undefined})
+                else
+                  setSort({dateAscending: true, sourceAscending: undefined})
               }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
-                {sort.dateAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
+                {sort?.dateAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
                 Date</th>
               <th className="px-4 py-3 max-w-fit w-4/6 text-center title-font tracking-wider font-medium ">Headline</th>
               {/* <th className="px-4 py-3 max-w-fit w-3/6 title-font tracking-wider font-medium ">Summary</th> */}
               <th className="px-4 py-3 max-w-fit  title-font tracking-wider font-medium ">Category</th>
               <th onClick={() => {
-                setSort({...sort, sourceAscending: !sort.sourceAscending})
+                if (sort)
+                  setSort({sourceAscending: !sort.sourceAscending, dateAscending: undefined})
+                else
+                  setSort({dateAscending: undefined, sourceAscending: true})
               }} className="px-4 py-3 max-w-fit flex items-center translate-all hover:scale-110  hover:cursor-pointer gap-2 title-font tracking-wider font-medium ">
-                {sort.sourceAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
+                {sort?.sourceAscending ? <SortDescendingIcon height={22} /> : <SortAscendingIcon height={22} />}
                 Source</th>
             </tr>
           </thead>

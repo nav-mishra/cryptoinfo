@@ -72,11 +72,10 @@ const SignIn = () => {
 
   if (!user)
     return (
-
-      <div className='  mx-auto my-auto w-full'>
+      <div className='mx-auto my-auto w-full'>
         <section className="w-2/3 lg:w-1/3 mx-auto body-font">
           <div className="px-5 py-24 mx-auto flex flex-wrap items-center">
-            <div className="shadow-md bg-indigo-100 border rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+            <div className="shadow-md bg-indigo-50 border rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
               {message.content && (
                 <div
                   className={`${message.type === 'error' ? 'text-pink-500' : 'text-green-500'

@@ -26,6 +26,7 @@ export const getStaticProps = async (props: any) => {
                 || x.title.match('jenkins')
             ),
         },
+        revalidate: 3600,
     }
 }
 
