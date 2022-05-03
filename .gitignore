@@ -37,4 +37,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 .vscode
-yarn.lock
+# yarn.lock needed for netlify to use yarn
+# yarn.lock
