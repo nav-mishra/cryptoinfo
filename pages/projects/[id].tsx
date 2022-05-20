@@ -19,17 +19,35 @@ export const getStaticProps: GetStaticProps = async (context) => {
             notFound: true,
         }
 
-    console.log('url', 'http://localhost:3000/api/project/' + projectId)
-    var project = await fetch('http://localhost:3000/api/project/' + projectId, {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
-        }
-    })
+    const getSummary = async (id: string): Promise<IProjectSummary> => {
+        var resp = await fetch(
+            'https://api.airtable.com/v0/appwnJu1vwrSkrnR7/ProfileDetail/' + id,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + process.env.AIRTABLE_API_KEY,
+                },
+            }
+        )
 
+        let response: any = await resp.json()
+        console.log('api', response)
+        return {
+            id: response['id'],
+            name: response.fields['Project Name'],
+            category: response.fields['Category'] ?? '',
+            website: response.fields['Website'] ?? '',
+            twitter: response.fields['Twitter'] ?? '',
+            discord: response.fields['Discord'] ?? '',
+            description: response.fields['Summary'] ?? '',
+            companyHistory: response.fields['Company History'] ?? '',
+            contractAddress: response.fields['Contract Address'] ?? '',
+            legalEntity: response.fields['Legal Entity'] ?? '',
+        }
+    }
+
+    let projectProfile: IProjectSummary = await getSummary(projectId as string)
     let feedItems: IFeedItem[] = await getFeeds(data.feeds)
-    let projectProfile: IProjectSummary = await project.json()
-    console.log('projectProfile', projectProfile)
     let feedQuery = projectProfile.name?.toLowerCase()
     let feeds = feedItems.filter(x =>
         x.category.match(feedQuery)
