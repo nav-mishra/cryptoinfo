@@ -187,8 +187,8 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
     return (
         <div>
             <LoadingIndicator open={!summary?.description} />
-            <section className='grid grid-cols-3 gap-2'>
-                <Card className='flex flex-col col-span-2 bg-gray-50 ' title={'Company History & Key People'}>
+            <section className='grid  md:gird-cols-2 lg:grid-cols-3 gap-2 grid-cols-1'>
+                <Card className='flex flex-col lg:col-span-2 bg-gray-50 lg:overflow-auto overflow-scroll' title={'Company History & Key People'}>
                     {summary?.description && <div className='flex flex-col justify-center'>
                         <p>{summary?.description}</p>
                         <br />
@@ -206,18 +206,9 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
                         </nav>
                     </div>}
                 </Card>
-                <Card className='w-full h-full bg-gray-50' title={'Unique holders'}>
-                    <ResponsiveContainer>
-                        <LineChart
-                            width={500}
-                            height={300}
-                            data={data}
-
-                            margin={{
-                                top: 20,
-                                bottom: 5,
-                            }}
-                        >
+                <Card className='lg:overflow-auto overflow-scroll bg-gray-50' title={'Unique holders'}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={data}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
@@ -228,7 +219,7 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
                         </LineChart>
                     </ResponsiveContainer>
                 </Card>
-                <Card className='col-span-1 bg-gray-50 overflow-y-scroll' title={'News'}>
+                <Card className='lg:overflow-auto overflow-scroll col-span-1 bg-gray-50 overflow-y-scroll' title={'News'}>
                     {feeds?.length > 0 ?
                         <div className='flex flex-col gap-2 divide-y'>
                             {feeds.slice(0, 5).map((feed, index) =>
@@ -245,11 +236,9 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
                         </div> : <div>No feeds available at this time.</div>
                     }
                 </Card>
-                <Card className='h-96' title={'Floor over time'}>
-                    <ResponsiveContainer className='bg-gray-50' width="100%" height="100%">
-                        <LineChart
-                            data={dataF}
-                        >
+                <Card className='lg:overflow-auto overflow-scroll bg-gray-50' title={'Floor over time'}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={dataF}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
@@ -260,15 +249,13 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
                         </LineChart>
                     </ResponsiveContainer>
                 </Card>
-                <Card title={'Type of holders'} className='bg-gray-50'>
-                    <ResponsiveContainer>
+                <Card title={'Type of holders'} className=' lg:overflow-auto overflow-scroll bg-gray-50'>
+                    <ResponsiveContainer width="100%" height="100%" className='border flex items-center justify-between'>
                         <PieChart >
-                            <Pie
-                                data={dataPie}
-
+                            <Pie data={dataPie}
                                 labelLine={false}
                                 label={renderCustomizedLabel}
-                                outerRadius={80}
+
                                 fill="#8884d8"
                                 dataKey="value"
                             >
@@ -281,12 +268,9 @@ const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feed
                         </PieChart>
                     </ResponsiveContainer>
                 </Card>
-                <Card title={'Treasury over time'} className='bg-gray-50'>
-                    <ResponsiveContainer >
-                        <LineChart
-
-                            data={dataTreasury}
-                        >
+                <Card title={'Treasury over time'} className='lg:overflow-auto overflow-scroll bg-gray-50'>
+                    <ResponsiveContainer>
+                        <LineChart data={dataTreasury}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
