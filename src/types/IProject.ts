@@ -5,4 +5,9 @@ export interface IProject {
   Category: string
   SubCategory: string
   Link: string
+  Twitter?: string
+  Discord?: string
+  Description?: string
+  Summary?: string
+  CompanyHistory?: string[]
 }

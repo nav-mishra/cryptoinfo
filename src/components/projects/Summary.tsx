@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
 import {IFeedItem} from '../../types/IFeedItem'
+import {IProjectSummary} from '../../types/IProjectSummary'
 import LoadingIndicator from '../LoadingIndicator'
 import Card from './Card'
 
@@ -180,36 +181,9 @@ const renderCustomizedLabel = ({cx, cy, midAngle, innerRadius, outerRadius, perc
     )
 }
 
-interface IProjectSummary {
-    name: string
-    category: string
-    contractAddress: string
-    legalEntity: string
-    description: string
-    website: string
-    twitter: string
-    etherScan: string
-    discord: string
-}
-
-const Summary: React.FC<{feeds: IFeedItem[]}> = (props) => {
-
-    const [summary, setSumnmary] = useState<IProjectSummary>()
-
-    const getSummary = async () => {
-        var resp = await fetch('/api/projectsummary?name=jenkins', {
-            method: 'GET'
-        })
-
-        var dat: IProjectSummary = await resp.json()
-        setSumnmary(dat)
-    }
-
-    useEffect(() => {
-        getSummary()
-    }, [])
 
 
+const Summary: React.FC<{feeds: IFeedItem[], summary: IProjectSummary}> = ({feeds, summary}) => {
     return (
         <div>
             <LoadingIndicator open={!summary?.description} />
@@ -255,9 +229,9 @@ const Summary: React.FC<{feeds: IFeedItem[]}> = (props) => {
                     </ResponsiveContainer>
                 </Card>
                 <Card className='col-span-1 bg-gray-50 overflow-y-scroll' title={'News'}>
-                    {props.feeds?.length > 0 ?
+                    {feeds?.length > 0 ?
                         <div className='flex flex-col gap-2 divide-y'>
-                            {props.feeds.slice(0, 5).map((feed, index) =>
+                            {feeds.slice(0, 5).map((feed, index) =>
                                 <Link key={index} href={feed.link} passHref={true}>
                                     <a target={'_blank'} className='flex flex-col p-2 rounded-md hover:bg-gray-200'>
                                         <span key={index}>{feed.title}</span>

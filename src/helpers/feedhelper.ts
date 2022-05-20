@@ -49,6 +49,5 @@ export async function getFeeds(feeds: { url: string; source: string }[]) {
     else return 0.5 - Math.random()
   })
 
-  console.log(feedItems.map((x) => x.date))
   return feedItems
 }

@@ -27,6 +27,5 @@ const getSummary = async (): Promise<ProjectTimeline[]> => {
 
   let response: any = await resp.json()
   let timeline: ProjectTimeline[] = response.records.map((x: any) => x.fields)
-  console.log(timeline)
   return timeline
 }

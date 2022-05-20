@@ -9,15 +9,7 @@ import {IProject} from '../../src/types/IProject'
 
 export const getStaticProps = async () => {
     //const data = await getProjects()
-    const data: IProject = {
-        Id: 'Jenkins the Valet',
-        Category: 'Wallet',
-        Link: 'https://www.jenkinsthevalet.com/',
-        Name: 'Jenkins the Valet',
-        SubCategory: 'NFT'
-    }
-
-    var resp = await fetch('https://api.airtable.com/v0/appX6rMkgP5MWlbdy/Imported%20table', {
+    var resp = await fetch('https://api.airtable.com/v0/appwnJu1vwrSkrnR7/ProjectsMain', {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
@@ -27,18 +19,19 @@ export const getStaticProps = async () => {
     var dat: any = await resp.json()
     let dataNew: IProject[] = dat.records.map((element: any) => {
         return {
-            Id: element.fields['Name'],
+            Id: element['id'],
             Category: element.fields['Category'] ?? '',
-            Link: element.fields['Link'] ?? '',
+            Link: element.fields['Website'] ?? '',
+            Twitter: element.fields['Twitter'] ?? '',
+            Description: element.fields['Description'] ?? '',
             Name: element.fields['Name'] ?? '',
-            SubCategory: element.fields['SubCategory'] ?? '',
+            SubCategory: element.fields['Subcategory'] ?? '',
         }
     })
 
-
     return {
         props: {
-            projects: [data, ...dataNew],
+            projects: dataNew,
         },
     }
 }

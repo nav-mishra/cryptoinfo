@@ -1,8 +1,6 @@
 import {Tab} from '@headlessui/react'
-import {GetStaticPaths, InferGetStaticPropsType, NextPage} from 'next'
-import {useRouter} from 'next/router'
+import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage} from 'next'
 import React from 'react'
-import Finances from '../../src/components/projects/Finances'
 import Metrics from '../../src/components/projects/Metrics'
 import News from '../../src/components/projects/News'
 import Profile from '../../src/components/projects/Profile'
@@ -10,28 +8,47 @@ import Summary from '../../src/components/projects/Summary'
 import Timeline from '../../src/components/Timeline'
 import {getFeeds} from '../../src/helpers/feedhelper'
 import {IFeedItem} from '../../src/types/IFeedItem'
+import {IProjectSummary} from '../../src/types/IProjectSummary'
 import {classNames} from '../../src/utils/cssUtils'
 import {data} from '../../src/utils/data'
 
-export const getStaticProps = async (props: any) => {
-    //const data = await getProjects()
+export const getStaticProps: GetStaticProps = async (context) => {
+    let projectId = context?.params?.id
+    if (!projectId)
+        return {
+            notFound: true,
+        }
+
+    console.log('url', 'http://localhost:3000/api/project/' + projectId)
+    var project = await fetch('http://localhost:3000/api/project/' + projectId, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
+        }
+    })
+
     let feedItems: IFeedItem[] = await getFeeds(data.feeds)
+    let projectProfile: IProjectSummary = await project.json()
+    console.log('projectProfile', projectProfile)
+    let feedQuery = projectProfile.name?.toLowerCase()
+    let feeds = feedItems.filter(x =>
+        x.category.match(feedQuery)
+        || x.content.match(feedQuery)
+        || x.link.match(feedQuery)
+        || x.title.match(feedQuery)
+    )
 
     return {
         props: {
-            feeds: feedItems.filter(x =>
-                x.category.match('jenkins')
-                || x.content.match('jenkins')
-                || x.link.match('jenkins')
-                || x.title.match('jenkins')
-            ),
+            projectProfile: projectProfile,
+            feeds: feeds
         },
         revalidate: 3600,
     }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    var resp = await fetch('https://api.airtable.com/v0/appX6rMkgP5MWlbdy/Imported%20table', {
+    var resp = await fetch('https://api.airtable.com/v0/appwnJu1vwrSkrnR7/ProjectsMain', {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
@@ -41,20 +58,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
     var paths = dat.records.map((element: any) => {
         return {
             params: {
-                id: element.fields['Name'],
+                id: element['id'],
             }
         }
     })
 
-    console.log('paths', paths)
-
     return {
         paths: [
-            {
-                params: {
-                    id: 'Jenkins the Valet',
-                },
-            },
             ...paths
         ],
         fallback: true
@@ -62,11 +72,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
-    const router = useRouter()
-    const {id} = router.query
+    console.log('props', props.projectProfile)
     const tabs = ["Summary", "Profile", "Updates", "Metrics",
-    // "Finances",
-    "News"]
+        // "Finances",
+        "News"]
 
     return (
         <section>
@@ -102,7 +111,7 @@ const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>
                                 'focus:outline-none '
                             )}
                         >
-                            <Summary feeds={props.feeds} />
+                            <Summary summary={props.projectProfile} feeds={props.feeds} />
                         </Tab.Panel>
                         <Tab.Panel
                             className={classNames(
@@ -152,7 +161,3 @@ const ProjectDetailPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>
 }
 
 export default ProjectDetailPage
-
-function foreach(arg0: boolean) {
-    throw new Error('Function not implemented.')
-}
