@@ -9,15 +9,29 @@ import {IProject} from '../../src/types/IProject'
 
 export const getStaticProps = async () => {
     //const data = await getProjects()
-    const dat: IProject[] = [{
-        Category: 'Wallet',
-        Link: 'https://www.jenkinsthevalet.com/',
-        Name: 'Jenkins the Valet',
-        SubCategory: 'NFT'
-    }]
+    var resp = await fetch('https://api.airtable.com/v0/appwnJu1vwrSkrnR7/ProjectsMain', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + process.env.AIRTABLE_API_KEY,
+        }
+    })
+
+    var dat: any = await resp.json()
+    let dataNew: IProject[] = dat.records.map((element: any) => {
+        return {
+            Id: element['id'],
+            Category: element.fields['Category'] ?? '',
+            Link: element.fields['Website'] ?? '',
+            Twitter: element.fields['Twitter'] ?? '',
+            Description: element.fields['Description'] ?? '',
+            Name: element.fields['Name'] ?? '',
+            SubCategory: element.fields['Subcategory'] ?? '',
+        }
+    })
+
     return {
         props: {
-            projects: dat,
+            projects: dataNew,
         },
     }
 }
@@ -66,8 +80,8 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
 
         <div className='body-font w-full mx-auto overflow-auto'>
             <table className="table-auto w-full text-left whitespace-no-wrap">
-                <thead className='bg-gray-900'>
-                    <tr className='bg-black bg-opacity-40'>
+                <thead className='dark:bg-gray-900 bg-gray-300'>
+                    <tr className='dark:bg-black bg-opacity-40 '>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Name</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Category</th>
                         <th className="px-4 py-3 max-w-fit w-1/6 title-font tracking-wider font-medium ">Subategory</th>
@@ -76,8 +90,8 @@ const ProjectsPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (
                 </thead>
                 <tbody>
                     {projects.map((x, index) =>
-                        <Link key={index} href={`/projects/${x.Name}`} passHref={true}>
-                            <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-800' key={index} >
+                        <Link key={index} href={`/projects/${x.Id}`} passHref={true}>
+                            <tr className='max-w-fit w-1/6 overflow-hidden group cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-800' key={index} >
 
 
                                 <td className="px-4 py-3">

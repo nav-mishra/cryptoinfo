@@ -28,10 +28,11 @@ const Profile: NextPage = (props) => {
     return (<div className='w-full flex'>
         <LoadingIndicator open={!userLoaded} />
         {userLoaded && <div className='w-full flex flex-row flex-wrap'>
-            Email: {user.email}
+            Email: {user?.email}
 
             <Button onClick={() => {
                 signOut()
+                router.replace('/')
             }} text='Sign out' />
         </div>
         }</div>)

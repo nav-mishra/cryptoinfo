@@ -1,17 +1,16 @@
+import {
+  getUser,
+  withAuthRequired,
+} from '@supabase/supabase-auth-helpers/nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getURL } from '../../src/utils/helpers'
 import { stripe } from '../../src/utils/stripe'
-import {
-  createOrRetrieveCustomer,
-  getUser,
-} from '../../src/utils/supabase-admin'
+import { createOrRetrieveCustomer } from '../../src/utils/supabase-admin'
 
 const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const token = req.headers.token as string
-
     try {
-      const user = await getUser(token)
+      const { user } = await getUser({ req, res })
       if (!user) throw Error('Could not get user')
       const customer = await createOrRetrieveCustomer({
         uuid: user.id || '',
@@ -35,4 +34,4 @@ const createPortalLink = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default createPortalLink
+export default withAuthRequired(createPortalLink)

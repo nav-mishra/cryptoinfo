@@ -58,7 +58,7 @@ const Metrics = () => {
     return (
         <div className='flex flex-col'>
             <div className='h-96 '>
-                <h2>Unique holders</h2>
+                <h2 className='text-lg font-semibold'>Unique holders</h2>
                 <ResponsiveContainer className='' width="100%" height="100%">
                     <LineChart
                         width={500}
@@ -81,15 +81,15 @@ const Metrics = () => {
                 </ResponsiveContainer>
             </div>
             <div className='h-96 mt-24'>
-                <h2>Top holders</h2>
+                <h2 className='text-lg font-semibold'>Top holders</h2>
                 <ResponsiveContainer >
                     <PieChart className=''>
-                        <Pie legendType='square' data={pieData} dataKey="value" cx="6.5%" innerRadius={100} outerRadius={140}  >
+                        <Pie legendType='square' data={pieData} dataKey="value" cx="16.5%" innerRadius={100} outerRadius={140}  >
                             {pieData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={`#${entry.name.substring(36)}`} />
                             ))}
                         </Pie>
-                        <Legend className='' verticalAlign="top" align='right' height={36} />
+                        <Legend className='overflow-hidden' verticalAlign="top" align='right' height={12} width={800} />
                     </PieChart>
 
                 </ResponsiveContainer>

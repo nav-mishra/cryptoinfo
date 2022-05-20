@@ -57,7 +57,7 @@ const Finances = () => {
     return (
         <div className='flex flex-col'>
             <div className='h-96 '>
-                <h2>Floor floor over time</h2>
+                <h2 className='text-lg font-semibold'>Floor over time</h2>
                 <ResponsiveContainer className='' width="100%" height="100%">
                     <LineChart
                         width={500}

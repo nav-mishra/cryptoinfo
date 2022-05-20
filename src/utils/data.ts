@@ -1,14 +1,7 @@
 import {
-  BriefcaseIcon,
   CalendarIcon,
-  CashIcon,
   ChartBarIcon,
   ClipboardListIcon,
-  CollectionIcon,
-  EyeIcon,
-  OfficeBuildingIcon,
-  RssIcon,
-  ShieldExclamationIcon,
 } from '@heroicons/react/outline'
 import { INavigationItem } from '../types/INavigationItem'
 
@@ -21,92 +14,18 @@ const navigation: INavigationItem[] = [
     path: '/projects',
   },
   {
-    name: 'Reports',
-    pageTitle: 'projects',
-    icon: ChartBarIcon,
-    forceAuth: false,
-    path: '/projects',
-  },
-  {
-    name: 'Events',
-    pageTitle: 'projects',
-    icon: CalendarIcon,
-    forceAuth: false,
-    path: '/projects',
-  },
-  {
     name: 'Feed',
-    pageTitle: 'projects',
-    icon: RssIcon,
-    forceAuth: false,
-    path: '/projects',
+    pageTitle: 'Feed',
+    icon: ChartBarIcon,
+    forceAuth: true,
+    path: '/feed',
   },
   {
-    name: 'Dataset',
-    pageTitle: 'Dashboard',
-    icon: CollectionIcon,
-    children: [
-      {
-        name: 'Exploits',
-        pageTitle: 'projects',
-        icon: ShieldExclamationIcon,
-        forceAuth: false,
-        path: '/projects',
-      },
-      {
-        name: 'CBDC Tracker',
-        pageTitle: 'projects',
-        icon: EyeIcon,
-        forceAuth: false,
-        path: '/projects',
-      },
-      {
-        name: 'Legal Cases',
-        pageTitle: 'projects',
-        icon: BriefcaseIcon,
-        forceAuth: false,
-        path: '/projects',
-      },
-      // {
-      //   name: 'Exploits',
-      //   pageTitle: 'Exploits',
-      //   icon: OfficeBuildingIcon,
-      //   path: '/dataset/exploits',
-      // },
-      // {
-      //   name: 'CBDC Tracker',
-      //   pageTitle: 'CBDC Tracker',
-      //   icon: OfficeBuildingIcon,
-      //   path: '/dataset/dbdctracker',
-      // },
-      // {
-      //   name: 'Legal cases',
-      //   pageTitle: 'Legal cases',
-      //   icon: OfficeBuildingIcon,
-      //   path: '/dataset/legalcases',
-      // },
-    ],
-  },
-  {
-    name: 'L1',
-    pageTitle: 'Layer 1',
-    icon: CashIcon,
-    children: [
-      {
-        name: 'BTC',
-        pageTitle: 'ETH',
-        icon: OfficeBuildingIcon,
-        forceAuth: false,
-        path: '/l1/btc',
-      },
-      {
-        name: 'ETH',
-        pageTitle: 'ETH',
-        icon: OfficeBuildingIcon,
-        forceAuth: false,
-        path: '/l1/eth',
-      },
-    ],
+    name: 'Tracker',
+    pageTitle: 'Tracker',
+    icon: CalendarIcon,
+    forceAuth: true,
+    path: '/tracker',
   },
 ]
 
@@ -138,10 +57,19 @@ const userNavigation = [
   },
 ]
 
+const feeds = [
+  { url: 'https://blockworks.co/feed/', source: 'blockworks' },
+  // { url: 'https://cointelegraph.com/feed', source: 'cointelegraph' },
+  { url: 'https://decrypt.co/feed', source: 'decrypt' },
+  { url: 'https://protos.com/feed', source: 'protos' },
+  { url: 'https://www.coindesk.com/arc/outboundfeeds/rss', source: 'coindesk' },
+]
+
 export const data = {
   navigation,
   pathList,
   userNavigation,
+  feeds,
 }
 
 export const pieData = [

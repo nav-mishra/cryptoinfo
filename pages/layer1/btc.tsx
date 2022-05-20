@@ -40,7 +40,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
             <div className="w-full mx-auto overflow-auto">
                 <table className="table-auto w-full text-left whitespace-no-wrap">
                     <thead>
-                        <tr className='bg-gray-800'>
+                        <tr className='dark:bg-gray-800'>
                             <th className="px-4 py-3 title-font tracking-wider font-medium  rounded-tl rounded-bl">Month</th>
                             <th className="px-4 py-3 title-font tracking-wider font-medium ">Day</th>
                             <th className="px-4 py-3 title-font tracking-wider font-medium ">Address count</th>

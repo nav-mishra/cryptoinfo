@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { IGlobalState } from '../types/IGlobalState'
-import { ILoadingState } from '../types/ILoadingState'
+import React, {createContext, ReactNode, useContext, useEffect, useReducer} from 'react'
+import {ILoadingState} from '../types/ILoadingState'
 
 export enum LoadingStateAction {
   Busy,
@@ -9,9 +8,9 @@ export enum LoadingStateAction {
 }
 
 export type LoadingAction =
-  | { type: LoadingStateAction.Busy }
-  | { type: LoadingStateAction.Idle }
-  | { type: LoadingStateAction.Error; errorMessage: string }
+  | {type: LoadingStateAction.Busy}
+  | {type: LoadingStateAction.Idle}
+  | {type: LoadingStateAction.Error; errorMessage: string}
 
 const initialState: ILoadingState = {
   inProgress: false,
@@ -21,7 +20,7 @@ const initialState: ILoadingState = {
 
 const loadingStateContext = createContext<ILoadingState>(initialState)
 const loadingDispatchContext = createContext<React.Dispatch<LoadingAction>>(
-  () => {}
+  () => { }
 )
 
 const reducer = (
@@ -30,22 +29,25 @@ const reducer = (
 ): ILoadingState => {
   switch (action.type) {
     case LoadingStateAction.Busy:
-      return { ...state, inProgress: true }
+      return {...state, inProgress: true}
     case LoadingStateAction.Idle:
-      return { ...state, inProgress: false }
+      return {...state, inProgress: false}
     case LoadingStateAction.Error:
-      return { ...state, error: true, errorMessge: action.errorMessage }
+      return {...state, error: true, errorMessge: action.errorMessage}
     default:
       return state
   }
 }
 
-const LoadingStateProvider: React.FC = ({ children }) => {
+
+const LoadingStateProvider: React.FC<{
+  children: ReactNode
+}> = ({children}) => {
   const [state, dispatch] = useReducer<
     React.Reducer<ILoadingState, LoadingAction>
   >(reducer, initialState)
 
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   return (
     <loadingStateContext.Provider value={state}>
@@ -59,4 +61,5 @@ const LoadingStateProvider: React.FC = ({ children }) => {
 const useLoadingState = () => useContext(loadingStateContext)
 const useLoadingDispatch = () => useContext(loadingDispatchContext)
 
-export { LoadingStateProvider, useLoadingState, useLoadingDispatch }
+export {LoadingStateProvider, useLoadingState, useLoadingDispatch}
+

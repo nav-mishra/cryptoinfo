@@ -2,7 +2,7 @@ import {Dialog, Transition} from '@headlessui/react'
 import {LoginIcon, MenuIcon, XIcon} from '@heroicons/react/outline'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {Fragment, useEffect, useState} from 'react'
+import {Fragment, ReactNode, useEffect, useState} from 'react'
 import {useUser} from '../hooks/useUser'
 import {GlobalStateAction, useGlobalDispatch} from '../store/GlobalStore'
 import {classNames} from '../utils/cssUtils'
@@ -12,7 +12,7 @@ import Header from './Header'
 import SideBarMenu from './SideBarMenu'
 import UserDetails from './UserDetails'
 
-const SidebarLayout: React.FC = (props) => {
+const SidebarLayout: React.FC<{children: ReactNode}> = (props) => {
   const router = useRouter()
   const globalDispatch = useGlobalDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -27,10 +27,7 @@ const SidebarLayout: React.FC = (props) => {
   }, [userLoaded, router.pathname])
 
   useEffect(() => {
-
     let title = getNavigationItem(router.pathname)
-    console.log('SidebarLayout.useEffect', title?.name, title?.pageTitle)
-    console.log('SidebarLayout.useEffect', router.pathname)
     globalDispatch({type: GlobalStateAction.SetPageTitle, title: title?.pageTitle ?? ''})
   }, [router.pathname])
 
